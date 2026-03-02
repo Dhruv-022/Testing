@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import dj_database_url
 
 # Load environment variables from .env file
 load_dotenv()
@@ -64,10 +65,13 @@ WSGI_APPLICATION = 'portfolio_backend.wsgi.application'
 
 # Database
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.parse(
+        "postgresql://neondb_owner:npg_c7JveNn8BfbK@ep-hidden-base-a104ind1-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+    )
+}
+
+DATABASES['default']['OPTIONS'] = {
+    'sslmode': 'require',
 }
 
 # Password validation
