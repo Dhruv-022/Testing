@@ -1128,12 +1128,15 @@ body.intro-active {
     transform: translateY(-10px);
 }
 
-/* Theme Sync: Metallic Sky Specifics */
-.theme-metallic-sky .vault-card {
-    background: #0a0a0a !important; 
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+/* Syncing Vault Card Glow with Project Card Glow */
+.theme-metallic-sky .vault-card:hover {
+    box-shadow: 0 0 25px -5px var(--color-light-blue-accent);
+    border-color: var(--color-light-blue-accent);
 }
 
-.theme-metallic-sky .vault-card:hover {
-    box-shadow: 0 0 25px rgba(129, 212, 250, 0.2);
+/* Ensuring the Icon inside also glows */
+.theme-metallic-sky .vault-card:hover i {
+    color: var(--color-light-blue-accent);
+    text-shadow: 0 0 15px var(--color-light-blue-accent);
+    transform: scale(1.1);
 }

@@ -8,6 +8,10 @@ def home_view(request):
     """Renders the main portfolio page."""
     return render(request, 'index.html')
 
+def scripts_hub_view(request):
+    """Renders the terminal-themed Scripts Hub page."""
+    return render(request, 'scripts_hub.html')
+
 def contact_view(request):
     """Renders the extraordinary contact page."""
     return render(request, 'contact.html')
