@@ -3,200 +3,263 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SCRIPTS_HUB // DHRUV</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DHRUV_ARCHIVE // TEMPORAL_TIMELINE</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500&family=Outfit:wght@300;600&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
     
     <style>
         :root {
-            /* Default Dark Theme */
-            --bg-color: #010409;
-            --blade-bg: rgba(13, 17, 23, 0.9);
+            /* Dark Mode: Black Archive & Cyan Capsules */
+            --bg-color: #000000;
+            --spine-color: rgba(34, 211, 238, 0.3);
+            --capsule-bg: #0a0a0a;
+            --accent-glow: #22d3ee;
             --text-main: #ffffff;
-            --text-dim: #8b949e;
-            --accent-glow: #3b82f6;
-            --code-bg: #000;
+            --text-dim: #71717a;
+            --panel-bg: #0f172a;
         }
 
-        /* Theme Toggler Styles (Matching Main Page) */
         body.light-theme {
-            --bg-color: #f6f8fa;
-            --blade-bg: #ffffff;
-            --text-main: #1f2328;
-            --text-dim: #656d76;
-            --accent-glow: #0969da;
-            --code-bg: #f6f8fa;
+            /* Light Mode: White Parchment & Silver Capsules */
+            --bg-color: #fcfaf7;
+            --spine-color: rgba(0, 0, 0, 0.1);
+            --capsule-bg: #ffffff;
+            --accent-glow: #64748b;
+            --text-main: #1c1917;
+            --text-dim: #78716c;
+            --panel-bg: #f5f5f4;
         }
 
         body {
             background: var(--bg-color);
             color: var(--text-main);
             font-family: 'Outfit', sans-serif;
-            padding: 5rem 10%;
-            transition: all 0.3s ease;
-        }
-
-        /* Title Styling */
-        .archive-title { 
-            font-family: 'Book Antiqua', 'Palatino', 'serif'; 
-            font-size: 3.5rem; 
-            margin-bottom: 0.5rem; 
-        }
-
-        .category-subtitle {
-            font-size: 1.2rem;
-            color: var(--text-dim);
-            margin-bottom: 4rem;
-            font-weight: 300;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* Theme Toggle Button */
-        .theme-toggle {
-            position: fixed;
-            top: 2rem;
-            right: 2rem;
-            background: transparent;
-            border: 1px solid var(--text-dim);
-            color: var(--text-main);
-            padding: 8px;
-            cursor: pointer;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        /* Rectangular Card (Blade) */
-        .script-blade {
-            background: var(--blade-bg);
-            border: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 1.5rem;
-            border-radius: 8px;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        body.light-theme .script-blade { border-color: rgba(0,0,0,0.1); }
-
-        .blade-header { padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
-        .blade-title { font-family: 'JetBrains Mono'; color: var(--accent-glow); font-weight: 500; }
-
-        .blade-content {
-            max-height: 0;
-            padding: 0 2rem;
-            opacity: 0;
+            margin: 0;
+            padding: 5rem 0;
             transition: all 0.5s ease;
         }
 
-        .script-blade.active .blade-content {
-            max-height: 2000px;
-            padding: 2rem;
-            opacity: 1;
-            border-top: 1px solid rgba(255,255,255,0.05);
+        /* --- Archival Header --- */
+        .archive-header {
+            text-align: center;
+            margin-bottom: 8rem;
         }
 
-        /* Code & UI Elements */
-        .code-box {
-            background: var(--code-bg);
-            padding: 1.5rem;
-            border-radius: 4px;
-            font-family: 'JetBrains Mono', monospace;
+        .archive-title { 
+            font-family: 'Book Antiqua', 'Palatino', serif; 
+            font-size: 4.5rem; 
+            margin: 0;
+            font-style: italic;
+        }
+
+        .category-subtitle {
+            font-family: 'JetBrains Mono';
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-top: 1rem;
+        }
+
+        /* --- Timeline Spine --- */
+        .timeline-container {
             position: relative;
-            overflow-x: auto;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
-        .copy-action {
-            position: absolute; top: 10px; right: 10px;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid var(--accent-glow);
-            color: var(--accent-glow);
-            padding: 4px 12px;
-            font-size: 0.65rem;
+        .timeline-spine {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--spine-color);
+            transform: translateX(-50%);
+        }
+
+        /* --- Archival Capsule --- */
+        .capsule-wrapper {
+            position: relative;
+            margin-bottom: 6rem;
+            width: 100%;
+            display: flex;
+            justify-content: flex-end; /* Alternate these for left/right */
+        }
+
+        .capsule-wrapper:nth-child(even) { justify-content: flex-start; }
+
+        .archive-capsule {
+            width: 45%;
+            background: var(--capsule-bg);
+            border: 1px solid var(--spine-color);
+            padding: 2.5rem;
+            position: relative;
             cursor: pointer;
+            transition: all 0.4s ease;
         }
 
-        .exec-btn {
-            display: inline-flex; align-items: center; gap: 10px;
-            padding: 12px 24px; border: 1px solid var(--accent-glow);
-            color: var(--accent-glow); text-decoration: none;
-            font-size: 0.75rem; font-weight: 600; margin-top: 2rem;
-            background: transparent; cursor: pointer;
+        /* Ticking Ring Effect */
+        .capsule-wrapper::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 30px;
+            width: 16px; height: 16px;
+            background: var(--bg-color);
+            border: 2px solid var(--accent-glow);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            box-shadow: 0 0 10px var(--accent-glow);
         }
 
-        .execution-panel {
-            display: none; margin-top: 1.5rem; padding: 1.5rem;
-            background: rgba(59, 130, 246, 0.05); border-left: 2px solid var(--accent-glow);
+        .archive-capsule:hover {
+            border-color: var(--accent-glow);
+            box-shadow: 0 0 30px var(--spine-color);
+        }
+
+        .capsule-date { font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--accent-glow); }
+        .capsule-name { display: block; font-size: 1.4rem; font-weight: 600; margin-top: 0.5rem; }
+
+        /* --- Expanded Scroll Panel --- */
+        .scroll-panel {
+            display: none;
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90vw; max-width: 800px;
+            background: var(--panel-bg);
+            border: 1px solid var(--accent-glow);
+            padding: 4rem;
+            z-index: 2000;
+            box-shadow: 0 0 100px rgba(0,0,0,0.8);
+            animation: unroll 0.6s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+        }
+
+        @keyframes unroll { from { height: 0; opacity: 0; } to { height: auto; opacity: 1; } }
+
+        .overlay {
+            display: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 1500;
+        }
+
+        /* --- Data Strip Copy Animation --- */
+        .data-strip-btn {
+            background: transparent; border: 1px solid var(--accent-glow);
+            color: var(--accent-glow); padding: 12px 24px;
+            font-family: 'JetBrains Mono'; cursor: pointer;
+            margin-top: 2rem; position: relative; overflow: hidden;
+        }
+
+        .data-strip-btn.unrolling::after {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; background: var(--accent-glow);
+            opacity: 0.2; animation: stripFlow 1s linear infinite;
+        }
+
+        @keyframes stripFlow { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+
+        .mentor-notes {
+            border-top: 1px dashed var(--accent-glow);
+            padding-top: 2rem; margin-top: 2rem;
+            font-family: 'JetBrains Mono'; font-size: 0.85rem;
+            color: var(--text-dim); line-height: 1.6;
         }
     </style>
 </head>
-<body class="dark-theme">
-    <button class="theme-toggle" onclick="toggleTheme()">
-        <i id="theme-icon" class="ri-moon-line"></i>
-    </button>
+<body>
 
-    <h1 class="archive-title">Scripts Hub</h1>
-    <p class="category-subtitle">General Python automation Scripts</p>
+    <div class="overlay" id="overlay" onclick="closeArchive()"></div>
 
-    <div class="script-blade" onclick="toggleBlade(this)">
-        <div class="blade-header">
-            <div>
-                <span class="blade-title">0x001_VOCAL_GREETING</span>
-                <p style="font-size: 0.8rem; opacity: 0.5; margin-top: 5px;">AI Vocal engine for context-aware system greetings.</p>
+    <header class="archive-header">
+        <h1 class="archive-title">Scripts Hub</h1>
+        <p class="category-subtitle">// THE_TEMPORAL_ARCHIVE</p>
+    </header>
+
+    <div class="timeline-container">
+        <div class="timeline-spine"></div>
+
+        <div class="capsule-wrapper">
+            <div class="archive-capsule" onclick="openArchive('scroll-001')">
+                <span class="capsule-date">OCT_2025_CYCLE</span>
+                <span class="capsule-name">VOCAL_GREET_ARTIFACT</span>
+                <p style="font-size: 0.8rem; color: var(--text-dim); margin-top: 1rem;">
+                    A fundamental piece of temporal AI used for automated environment greetings.
+                </p>
             </div>
-            <i class="ri-arrow-down-s-line"></i>
-        </div>
 
-        <div class="blade-content" onclick="event.stopPropagation()">
-            <div class="code-box">
-                <button class="copy-action" onclick="fetchAndCopy('{% static 'scripts/script_vocal_greeting.txt' %}', this)">
-                    <i class="ri-file-copy-line"></i> Copy_Full_Source
+            <div id="scroll-001" class="scroll-panel">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem;">
+                    <h2 style="font-family: 'Book Antiqua'; font-size: 2.5rem; margin: 0;">Vocal Greeting Artifact</h2>
+                    <button onclick="closeArchive()" style="background:transparent; border:none; color:var(--text-dim); cursor:pointer; font-size:2rem;">
+                        <i class="ri-close-fill"></i>
+                    </button>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 3rem;">
+                    <div>
+                        <h4 style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--accent-glow);">ARCHIVE_METADATA</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-dim);">
+                            Language: Python<br>
+                            Engine: pyttsx3<br>
+                            Integrity: Verified
+                        </p>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.2); padding: 1.5rem; border: 1px solid var(--spine-color);">
+                        <code style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--text-dim);">
+                            # Full artifact logic retrieved via script_vocal_greeting.txt
+                        </code>
+                    </div>
+                </div>
+
+                <button class="data-strip-btn" onclick="fetchAndUnroll('{% static 'scripts/script_vocal_greeting.txt' %}', this)">
+                    <i class="ri-scroll-detail-line"></i> UNROLL_DATA_STRIP
                 </button>
-                <pre><code># [ Full Source capturing from script_vocal_greeting.txt ]
-import pyttsx3
-from datetime import datetime as dt
-# ... logic preview ...</code></pre>
-            </div>
 
-            <button class="exec-btn" onclick="togglePanel('protocol-001')">
-                <i class="ri-terminal-box-line"></i> Execution Protocol
-            </button>
-
-            <div id="protocol-001" class="execution-panel">
-                <h4>[ INSTRUCTIONS ]</h4>
-                <p>1. Copy code to <code>greet.py</code><br>2. Run <code>pip install pyttsx3</code><br>3. Execute <code>python greet.py</code></p>
+                <div class="mentor-notes">
+                    <h4 style="color: var(--accent-glow); margin-bottom: 1rem;">[ MENTOR_ANNOTATIONS ]</h4>
+                    <p>1. Extract strip and name it <code>greet.py</code>.</p>
+                    <p>2. Link vocal dependencies: <code>pip install pyttsx3</code>.</p>
+                    <p>3. Activate artifact: <code>python greet.py</code>.</p>
+                </div>
             </div>
         </div>
+
     </div>
 
     <script>
-        function toggleTheme() {
-            const body = document.body;
-            const icon = document.getElementById('theme-icon');
-            body.classList.toggle('light-theme');
-            icon.className = body.classList.contains('light-theme') ? 'ri-sun-line' : 'ri-moon-line';
+        function openArchive(id) {
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById(id).style.display = 'block';
         }
 
-        function toggleBlade(element) {
-            element.classList.toggle('active');
+        function closeArchive() {
+            document.getElementById('overlay').style.display = 'none';
+            document.querySelectorAll('.scroll-panel').forEach(p => p.style.display = 'none');
         }
 
-        function togglePanel(id) {
-            const panel = document.getElementById(id);
-            panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
-        }
-
-        async function fetchAndCopy(url, btn) {
+        async function fetchAndUnroll(url, btn) {
             try {
+                btn.classList.add('unrolling');
                 const response = await fetch(url);
                 const text = await response.text();
                 await navigator.clipboard.writeText(text);
-                btn.innerText = "COPIED!";
-                setTimeout(() => btn.innerText = "Copy_Full_Source", 2000);
-            } catch (e) { btn.innerText = "FETCH_ERROR"; }
+                
+                setTimeout(() => {
+                    btn.classList.remove('unrolling');
+                    btn.innerHTML = '<i class="ri-check-line"></i> DATA_STRIP_CAPTURED';
+                    setTimeout(() => {
+                        btn.innerHTML = '<i class="ri-scroll-detail-line"></i> UNROLL_DATA_STRIP';
+                    }, 2000);
+                }, 1000);
+            } catch (e) {
+                btn.innerText = "STRIP_FAILED";
+            }
         }
     </script>
 </body>
