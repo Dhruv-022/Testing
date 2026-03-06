@@ -79,7 +79,7 @@
         }
 
         .script-card::after {
-  content: "\2228";
+  content: "▼"";
   position: absolute;
   bottom: -12px;
   right: 20px;
@@ -166,6 +166,10 @@
         }
 
         .btn:hover { opacity: 0.9; }
+         .btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+ }
 
         .protocol-box {
             background: rgba(255,255,255,0.03);
@@ -208,7 +212,6 @@
                     <h2 style="margin:0; font-size: 1.25rem;">Vocal Greeting System</h2>
                     <span class="tag">0x001</span>
                 </div>
-                <i class="ri-add-line"></i>
             </div>
             
             <p style="color: var(--text-muted); font-size: 0.9rem;">
@@ -245,17 +248,33 @@
 
     <script>
         async function copySource(url, btn) {
-            try {
-                const response = await fetch(url);
-                const code = await response.text();
-                await navigator.clipboard.writeText(code);
-                
-                const original = btn.innerText;
-                btn.innerText = "Copied to Clipboard";
-                setTimeout(() => btn.innerText = original, 2000);
-            } catch (err) {
-                btn.innerText = "Error Fetching Source";
-            }
+            const original = "Copy Source Code";
+  
+    try {
+      // Show "Copying..." state
+      btn.innerText = "Copying...";
+      btn.disabled = true;
+      
+      const response = await fetch(url);
+      const code = await response.text();
+      await navigator.clipboard.writeText(code);
+      
+      // Show "Code Copied!" state
+      btn.innerText = "Code Copied!";
+      
+      // After 3-5 seconds, revert to original
+      setTimeout(() => {
+        btn.innerText = original;
+        btn.disabled = false;
+      }, 4000); // 4 seconds (middle of 3-5 range)
+      
+    } catch (err) {
+      btn.innerText = "Error Fetching Source";
+      setTimeout(() => {
+        btn.innerText = original;
+        btn.disabled = false;
+      }, 3000);
+    }
         }
     </script>
 </body>
