@@ -19,6 +19,11 @@
             --text-muted: #888888;
         }
 
+        /* FIXED: Reserve scrollbar space globally to prevent layout shifting */
+        html {
+            scrollbar-gutter: stable;
+        }
+
         body.light-theme {
             --bg: #ffffff;
             --surface: #fafafa;
