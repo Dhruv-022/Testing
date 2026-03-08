@@ -37,16 +37,16 @@
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
             margin: 0;
-            padding: 80px 10%;
+            padding: 40px 10% 80px 10%; /* Reduced top padding from 80px to 40px */
             transition: background 0.2s ease;
         }
 
-        /* --- Header: Moved Upwards --- */
+        /* --- Header: Moved further upwards --- */
         header {
             border-bottom: 1px solid var(--border);
-            padding-bottom: 30px; /* Reduced from 40px */
-            margin-top: -20px;    /* Added negative margin to move it up */
-            margin-bottom: 50px; /* Reduced from 60px */
+            padding-bottom: 24px; /* Reduced padding */
+            margin-top: -10px;    /* Subtle negative margin for precision */
+            margin-bottom: 40px; /* Tighter gap to the grid */
             text-align: center;
         }
 
@@ -61,7 +61,7 @@
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.85rem;
             color: var(--text-muted);
-            margin-top: 10px;
+            margin-top: 8px;
             text-transform: uppercase;
         }
 
@@ -106,7 +106,6 @@
             z-index: 10; 
         }
 
-        /* Connector Mask to maintain one shape */
         .script-card::before {
             content: "";
             position: absolute;
