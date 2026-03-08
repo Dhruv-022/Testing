@@ -95,7 +95,12 @@
   font-size: 1.2rem;
   color: var(--text-muted);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+}
+
+    .script-card.active::after {
+    transform: rotate(180deg);
+    color: var(--text-main);
 }
 
 .script-card:hover::after {
@@ -124,15 +129,22 @@
 
         /* --- Expanded Content --- */
         .content-drawer {
-            display: none;
-            margin-top: 32px;
-            padding-top: 32px;
-            border-top: 1px solid var(--border);
-        }
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.4s ease, 
+                margin-top 0.4s ease;
+    margin-top: 0;
+}
 
         .script-card.active .content-drawer {
-            display: block;
-        }
+    max-height: 1000px; /* High enough to accommodate content */
+    opacity: 1;
+    margin-top: 32px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+}
 
         .meta-group {
             display: grid;
