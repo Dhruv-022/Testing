@@ -79,21 +79,20 @@
             overflow: visible; 
         }
 
-        /* --- Individual Card Canvas --- */
         .card-particles {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 0; /* Behind text but above surface */
+            z-index: 0;
             pointer-events: none;
             border-radius: inherit;
         }
 
         .card-header, .script-card > p, .content-drawer {
             position: relative;
-            z-index: 1; /* Content above particles */
+            z-index: 1;
         }
 
         .script-card::after {
@@ -207,24 +206,17 @@
     </header>
 
     <div class="scripts-grid">
-        <div class="script-card" onclick="if(!this.dataset.animating) { 
-            this.classList.toggle('active'); 
-            this.dataset.animating = 'true'; 
-            setTimeout(() => delete this.dataset.animating, 400); 
-        }">
+        <div class="script-card" onclick="handleCardClick(this, event)">
             <canvas class="card-particles"></canvas>
-
             <div class="card-header">
                 <div>
                     <h2 style="margin:0; font-size: 1.25rem;">Vocal Greeting System</h2>
                     <span class="tag">0x001</span>
                 </div>
             </div>
-            
             <p style="color: var(--text-muted); font-size: 0.9rem;">
                 A temporal logic bridge for automated speech synthesis.
             </p>
-
             <div class="content-drawer" onclick="event.stopPropagation()">
                 <div class="meta-group">
                     <div class="meta-item">
@@ -236,11 +228,9 @@
                         <p>Synchronous OS level audio output based on 24h clock cycles.</p>
                     </div>
                 </div>
-
                 <button class="btn" data-source="{% static 'scripts/script_vocal_greeting.txt' %}" onclick="copySource(this.getAttribute('data-source'), this)">
                     Copy Source Code
                 </button>
-
                 <div class="protocol-box">
                     <h4>Execution Protocol</h4>
                     <ol>
@@ -251,14 +241,68 @@
                 </div>
             </div>
         </div>
+
+        <div class="script-card" onclick="handleCardClick(this, event)">
+            <canvas class="card-particles"></canvas>
+            <div class="card-header">
+                <div>
+                    <h2 style="margin:0; font-size: 1.25rem;">Instance Terminator</h2>
+                    <span class="tag">0x002</span>
+                </div>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                A window management utility to force-close all active GUI instances.
+            </p>
+            <div class="content-drawer" onclick="event.stopPropagation()">
+                <div class="meta-group">
+                    <div class="meta-item">
+                        <h4>Requirements</h4>
+                        <p>Python 3.10+<br><code>pip install pygetwindow</code></p>
+                    </div>
+                    <div class="meta-item">
+                        <h4>Operation</h4>
+                        <p>Iterates through visible OS windows and executes a close command.</p>
+                    </div>
+                </div>
+                <button class="btn" data-source="{% static 'scripts/script_close_all.txt' %}" onclick="copySource(this.getAttribute('data-source'), this)">
+                    Copy Source Code
+                </button>
+                <div class="protocol-box">
+                    <h4>Execution Protocol</h4>
+                    <ol>
+                        <li>Ensure <code>pygetwindow</code> is installed.</li>
+                        <li>Save source as <code>close_all.py</code>.</li>
+                        <li>Run to clear the workspace.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
         const JS_CONFIG = {
-            PARTICLE_COUNT: 25, /* Reduced count per card for performance */
+            PARTICLE_COUNT: 25,
             CONNECTION_DISTANCE: 70,
             MOUSE_REPULSION_RADIUS: 80
         };
+
+        // NEW: Independent Card Toggle Function
+        function handleCardClick(card, event) {
+            // Prevent expansion if clicking inside the drawer or on the button
+            if (event.target.closest('.content-drawer') || event.target.closest('.btn')) {
+                return;
+            }
+
+            // Animation lock to prevent glitching
+            if (card.dataset.animating === 'true') return;
+
+            card.classList.toggle('active');
+
+            card.dataset.animating = 'true';
+            setTimeout(() => {
+                delete card.dataset.animating;
+            }, 400);
+        }
 
         class CardParticleSystem {
             constructor(canvas) {
@@ -271,7 +315,6 @@
                 this.init();
                 this.animate();
 
-                // Mouse events relative to the card
                 this.parent.addEventListener('mousemove', (e) => {
                     const rect = this.parent.getBoundingClientRect();
                     this.mouse.x = e.clientX - rect.left;
@@ -282,7 +325,6 @@
                     this.mouse.y = null;
                 });
                 
-                // Watch for card expansion to resize canvas
                 const observer = new ResizeObserver(() => this.resize());
                 observer.observe(this.parent);
             }
@@ -319,7 +361,6 @@
                 for (let i = 0; i < this.particles.length; i++) {
                     let p = this.particles[i];
 
-                    // Movement
                     if (this.mouse.x && this.mouse.y) {
                         let dx = this.mouse.x - p.x;
                         let dy = this.mouse.y - p.y;
@@ -333,17 +374,14 @@
                     p.x += p.dirX;
                     p.y += p.dirY;
 
-                    // Bounds check
                     if (p.x > this.canvas.width || p.x < 0) p.dirX *= -1;
                     if (p.y > this.canvas.height || p.y < 0) p.dirY *= -1;
 
-                    // Draw Particle
                     this.ctx.beginPath();
                     this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                     this.ctx.fillStyle = particleColor;
                     this.ctx.fill();
 
-                    // Connect
                     for (let j = i; j < this.particles.length; j++) {
                         let p2 = this.particles[j];
                         let dist = Math.sqrt((p.x - p2.x)**2 + (p.y - p2.y)**2);
