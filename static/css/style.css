@@ -1114,3 +1114,26 @@ body.intro-active {
 .vault-card h3 { font-size: 1.8rem; color: var(--color-text-main); margin-bottom: 1rem; }
 .vault-card p { font-size: 0.95rem; color: var(--color-text-main); opacity: 0.7; line-height: 1.6; margin-bottom: 2rem; text-align: center; }
 .vault-link-text { font-weight: 700; color: var(--color-text-accent); text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem; }
+
+/* --- MOBILE RESPONSIVENESS OVERRIDES --- */
+@media (max-width: 768px) {
+    /* Significantly raises the heading higher on the mobile screen */
+    .hero-content {
+        transform: translateY(-25%); /* Increased from -10% to move heading further up */
+        padding-bottom: 2rem;       /* Maintains space below the text */
+    }
+
+    /* Keeps the scroll indicator at the 5rem position you requested */
+    .scroll-indicator {
+        bottom: 5rem; 
+    }
+
+    /* Maintains reduced headline size for mobile screen fit */
+    .hero-headline {
+        font-size: 2.2rem; 
+    }
+    
+    .typewriter-cursor {
+        height: 2.2rem; 
+    }
+}
