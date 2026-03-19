@@ -47,27 +47,29 @@ function initIntroAnimation() {
     let animationFrameId;
 
     function typeify(text, targetElement, baseDelay, charSpeed) {
-        // Clear container first to ensure no "sudden" ghost text appears
+        // Clear immediately to prevent ghosting
         targetElement.innerHTML = ''; 
+        
         text.split('').forEach((char, index) => {
             const span = document.createElement('span');
             span.textContent = char === ' ' ? '\u00A0' : char;
-            // The magic is here: each letter waits for its turn
+            // Force reset of any inherited styles
+            span.style.opacity = "0";
             span.style.animationDelay = `${index * charSpeed + baseDelay}ms`; 
             targetElement.appendChild(span);
         });
     }
 
-    // --- TIMING RECALIBRATION ---
-    // Line 1: ERA 2026 starts almost immediately
+    // Line 1: ERA 2026 starts at 500ms
     const eraContainer = document.getElementById('intro-era');
-    if (eraContainer) typeify(INTRO_CONFIG.ERA_TEXT, eraContainer, 500, 70);
+    if (eraContainer) typeify(INTRO_CONFIG.ERA_TEXT, eraContainer, 500, 50);
 
-    // Line 2: Presents starts after Era 2026 has had its time (around 4 seconds in)
+    // Line 2: PRESENTS - Increased baseDelay to 4500ms
+    // This ensures Line 1 is 100% gone before Line 2 begins its logic.
     const presentsContainer = document.getElementById('intro-presents');
-    if (presentsContainer) typeify(INTRO_CONFIG.PRESENTS_TEXT, presentsContainer, 4000, 70);
+    if (presentsContainer) typeify(INTRO_CONFIG.PRESENTS_TEXT, presentsContainer, 4500, 50);
 
-    // Line 3: Dhruv Vaishnav starts after Presents (around 6.5 seconds in)
+    // Line 3: MAIN NAME starts at 6500ms
     typeify(INTRO_CONFIG.TEXT, textContainer, 6500, 150);
 
 

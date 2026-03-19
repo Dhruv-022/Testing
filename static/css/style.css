@@ -220,9 +220,20 @@ body.intro-active {
 
 /* Animation timings remain the same for the sequence */
 #intro-era {
-    opacity: 1; /* Keep base opacity 1; the spans inside will handle their own entrance */
+    opacity: 1;
     animation: fadeOutContainer 0.8s ease forwards;
-    animation-delay: 3.2s; /* ERA 2026 disappears before Presents starts */
+    animation-delay: 3.5s; /* Wait for typewriter to finish */
+}
+
+@keyframes scaleInFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9); /* Subtle scale is smoother than 0.5 */
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 #intro-presents {
@@ -242,22 +253,27 @@ body.intro-active {
 }
 
 @keyframes fadeOutContainer {
-    from { opacity: 1; transform: translateX(0); }
-    to { opacity: 0; transform: translateX(-10px); }
-}
-
-/* Ensure all spans in the sequence use the same smooth entrance */
-.intro-sequence span {
-    display: inline-block;
-    opacity: 0; /* Starts invisible */
-    /* scaleInFadeIn is your existing smooth animation */
-    animation: scaleInFadeIn 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    from { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+    to { 
+        opacity: 0; 
+        transform: translateY(-8px); 
+    }
 }
 
 @keyframes fadeInStay {
     0% { opacity: 0; transform: translateX(5px); }
     100% { opacity: 1; transform: translateX(0); }
 }
+
+.intro-sequence span {
+    display: inline-block;
+    opacity: 0;
+    animation: scaleInFadeIn 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
 
 #intro-overlay {
     position: fixed;
