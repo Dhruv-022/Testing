@@ -220,8 +220,13 @@ body.intro-active {
 
 /* Animation timings remain the same for the sequence */
 #intro-era {
+    opacity: 1; /* Keep base opacity 1; the spans inside will handle their own entrance */
     animation: fadeOutContainer 0.8s ease forwards;
-    animation-delay: 3.2s;
+    animation-delay: 3.2s; /* ERA 2026 disappears before Presents starts */
+}
+
+#intro-presents {
+    opacity: 1;
 }
 
 #intro-presents {
@@ -244,7 +249,8 @@ body.intro-active {
 /* Ensure all spans in the sequence use the same smooth entrance */
 .intro-sequence span {
     display: inline-block;
-    opacity: 0;
+    opacity: 0; /* Starts invisible */
+    /* scaleInFadeIn is your existing smooth animation */
     animation: scaleInFadeIn 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 

@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
  INTRO ANIMATION LOGIC
 ==========================================================================
 */
+// Replace the start of your initIntroAnimation function with this:
 function initIntroAnimation() {
     const overlay = document.getElementById('intro-overlay');
     const textContainer = document.getElementById('intro-text');
@@ -45,27 +46,30 @@ function initIntroAnimation() {
     let particles = [];
     let animationFrameId;
 
-    // Helper function to create spans with specific timing
     function typeify(text, targetElement, baseDelay, charSpeed) {
+        // Clear container first to ensure no "sudden" ghost text appears
+        targetElement.innerHTML = ''; 
         text.split('').forEach((char, index) => {
             const span = document.createElement('span');
             span.textContent = char === ' ' ? '\u00A0' : char;
-            // Uses your existing scaleInFadeIn animation from CSS
+            // The magic is here: each letter waits for its turn
             span.style.animationDelay = `${index * charSpeed + baseDelay}ms`; 
             targetElement.appendChild(span);
         });
     }
 
-    // Line 1: ERA 2026 (Fast & Smooth)
+    // --- TIMING RECALIBRATION ---
+    // Line 1: ERA 2026 starts almost immediately
     const eraContainer = document.getElementById('intro-era');
-    if (eraContainer) typeify(INTRO_CONFIG.ERA_TEXT, eraContainer, 800, 50);
+    if (eraContainer) typeify(INTRO_CONFIG.ERA_TEXT, eraContainer, 500, 70);
 
-    // Line 2: Presents (Fast & Smooth)
+    // Line 2: Presents starts after Era 2026 has had its time (around 4 seconds in)
     const presentsContainer = document.getElementById('intro-presents');
-    if (presentsContainer) typeify(INTRO_CONFIG.PRESENTS_TEXT, presentsContainer, 4000, 50);
+    if (presentsContainer) typeify(INTRO_CONFIG.PRESENTS_TEXT, presentsContainer, 4000, 70);
 
-    // Line 3: Dhruv Vaishnav (Your existing name animation - slower)
-    typeify(INTRO_CONFIG.TEXT, textContainer, 6000, 150);
+    // Line 3: Dhruv Vaishnav starts after Presents (around 6.5 seconds in)
+    typeify(INTRO_CONFIG.TEXT, textContainer, 6500, 150);
+
 
     function createFormulaParticle() {
         const particleEl = document.createElement('div');
