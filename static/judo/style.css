@@ -337,6 +337,11 @@ body.theme-metallic-sky .theme-option-btn:hover {
         font-size: 1.8rem;
     }
 
+    .theme-toggle {
+        width: 40px;  /* Reduced from 50px */
+        height: 40px; /* Reduced from 50px */
+    }
+
     /* Reduced size of the capsule (badge) and its text */
     .judo-badge {
         font-size: 0.65rem; /* Reduced from 0.8rem */
