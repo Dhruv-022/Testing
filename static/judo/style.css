@@ -322,18 +322,33 @@ body.theme-metallic-sky .theme-option-btn:hover {
 */
 @media (max-width: 768px) {
     #judo-hero {
-        padding: 20px 20px 40px 20px; 
+        padding: 20px 20px 40px 20px;
     }
 
+    /* Restored heading to 2.5rem */
     .judo-header h1 {
-        font-size: 2.5rem; 
+        font-size: 2.5rem;
         display: flex;
         flex-direction: column; 
         align-items: center;
     }
 
     .judo-title-sub {
-        font-size: 1.8rem; 
+        font-size: 1.8rem;
+    }
+
+    /* Reduced size of the capsule (badge) and its text */
+    .judo-badge {
+        font-size: 0.65rem; /* Reduced from 0.8rem */
+        padding: 3px 10px;  /* Reduced from 5px 15px */
+        border-width: 1.5px; /* Slightly thinner border for scale */
+    }
+
+    /* Kept description font reduced */
+    .judo-subtitle {
+        font-size: 1rem;
+        margin: 15px auto;
+        padding: 0 10px;
     }
 
     .judo-actions {
@@ -350,6 +365,6 @@ body.theme-metallic-sky .theme-option-btn:hover {
     }
 
     .feature-grid {
-        grid-template-columns: 1fr; 
+        grid-template-columns: 1fr;
     }
 }
