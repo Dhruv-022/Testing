@@ -373,13 +373,15 @@ body.theme-metallic-sky .theme-option-btn:hover {
     .judo-actions {
         display: flex;
         flex-direction: column;
-        gap: 15px;
+        gap: 12px;         /* Slightly tighter gap */
         align-items: center;
     }
 
     .judo-btn {
-        width: 80%;
-        max-width: 300px;
+        width: 75%;       /* Reduced from 80% */
+        max-width: 250px;  /* Reduced from 300px */
+        padding: 10px 20px; /* Reduced from 12px 30px */
+        font-size: 0.85rem; /* Added font reduction for better scale */
         margin: 0;
     }
 
