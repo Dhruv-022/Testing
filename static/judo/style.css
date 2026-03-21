@@ -378,10 +378,13 @@ body.theme-metallic-sky .theme-option-btn:hover {
     }
 
     .judo-btn {
-        width: 75%;       /* Reduced from 80% */
-        max-width: 250px;  /* Reduced from 300px */
-        padding: 10px 20px; /* Reduced from 12px 30px */
-        font-size: 0.85rem; /* Added font reduction for better scale */
+        width: 75%;
+        max-width: 250px;
+        padding: 10px 20px;
+        /* Increased font size for better button prominence */
+        font-size: 0.95rem; 
+        /* Increased border-radius for more curved corners */
+        border-radius: 50px; 
         margin: 0;
     }
 
