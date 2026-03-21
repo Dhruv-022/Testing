@@ -342,6 +342,20 @@ body.theme-metallic-sky .theme-option-btn:hover {
         height: 40px; /* Reduced from 50px */
     }
 
+
+    * Reduced the size of the actual SVG icon inside */
+    .theme-toggle svg {
+        width: 18px;  /* Reduced from 24px */
+        height: 18px; /* Reduced from 24px */
+    }
+
+    /* Adjusted the menu position to account for the smaller button */
+    .theme-options {
+        top: 50px;    /* Adjusted from 60px */
+        width: 180px; /* Slightly narrower menu for mobile */
+    }
+
+    
     /* Reduced size of the capsule (badge) and its text */
     .judo-badge {
         font-size: 0.65rem; /* Reduced from 0.8rem */
