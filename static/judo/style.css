@@ -424,5 +424,29 @@ body.theme-metallic-sky .theme-option-btn:hover {
         margin-bottom: 0; /* Ensures no extra space at the bottom */
     }
 
+    .judo-tech-stack .section-title {
+        font-size: 1.6rem; /* Reduced from 2.5rem */
+        margin-bottom: 15px;
+    }
+
+    /* Reduce the technical description font size */
+    .judo-tech-stack .bio-text {
+        font-size: 0.9rem; /* Reduced from 1.2rem */
+        line-height: 1.5;
+        padding: 0 10px;
+        margin-bottom: 20px;
+    }
+
+    /* Reduce the size of the 'Back to Portfolio' link */
+    .back-home-btn {
+        font-size: 0.75rem; /* Reduced from original uppercase size */
+        letter-spacing: 0.5px;
+    }
+
+    /* Tighten the spacing for the final action button container */
+    .judo-tech-stack .action-buttons {
+        margin-top: 30px; /* Reduced from 60px */
+        padding-bottom: 30px;
+    }
     
 }
