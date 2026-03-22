@@ -57,7 +57,10 @@ body {
 #judo-hero {
     min-height: 100vh;
     padding: 10vh 5vw;
-    background: radial-gradient(circle at top right, var(--judo-glow), transparent 70%);
+    /* Updated background: Added a linear gradient layer to darken the left side */
+    background: 
+        linear-gradient(to right, rgba(0, 0, 0, 0.4) 0%, transparent 50%),
+        radial-gradient(circle at top right, var(--judo-glow), transparent 70%);
     display: flex;
     justify-content: center;
     position: relative;
