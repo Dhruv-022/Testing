@@ -390,34 +390,37 @@ body.theme-metallic-sky .theme-option-btn:hover {
     .feature-grid {
         margin: 30px auto;
         gap: 20px;
-        width: 100%; /* Full width to allow cards to expand */
+        width: 100%; 
         display: flex;
         flex-direction: column;
         align-items: center;
     }
 
     .feature-box {
-        width: 80%; /* Increased width for square look */
-        max-width: 280px; /* Reduced length/height constraint */
-        aspect-ratio: 1 / 1; /* Forces the card to be a square */
+        width: 85%; /* Slightly wider to help reduce vertical stretching */
+        max-width: 300px;
+        /* Removed aspect-ratio to allow the height to shrink */
+        min-height: 160px; /* Ensures they still look substantial but not overly tall */
         display: flex;
         flex-direction: column;
-        justify-content: center; /* Centers text vertically in the square */
+        justify-content: center; 
         align-items: center;
-        padding: 20px; 
-        border-radius: 20px; /* Slightly more curved for the square shape */
+        padding: 12px 20px; /* Reduced vertical padding (12px) to close the gaps */
+        border-radius: 20px; 
         box-sizing: border-box; 
     }
 
-    /* Reduce the font size of the card headings */
     .feature-box h3 {
-        font-size: 1.15rem;
-        margin-bottom: 8px;
+        font-size: 1.1rem;
+        margin-top: 0; /* Ensures no extra space at the top */
+        margin-bottom: 5px; /* Tighter gap between title and description */
+        text-align: center;
     }
 
     .feature-box p {
         font-size: 0.85rem;
-        line-height: 1.4;
+        line-height: 1.3; /* Tighter line height to save space */
         text-align: center;
+        margin-bottom: 0; /* Ensures no extra space at the bottom */
     }
 }
