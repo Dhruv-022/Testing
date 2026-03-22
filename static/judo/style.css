@@ -104,14 +104,6 @@ body.theme-metallic-sky .judo-title-main {
     background: rgba(0, 229, 255, 0.05);
 }
 
-.theme-swatch {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    border: 2px solid var(--color-card-border);
-    flex-shrink: 0;
-}
-
 .judo-subtitle {
     font-size: 1.2rem;
     color: var(--color-text-main);
@@ -253,10 +245,7 @@ body.theme-metallic-sky .judo-btn.primary {
     line-height: 1.6;
 }
 
-/* ==========================================================================
-  THEME SELECTOR UI
-==========================================================================
-*/
+/* --- THEME SELECTOR UI (Identical to Main Portfolio) --- */
 .theme-selector-container {
     position: fixed;
     top: 20px;
@@ -275,6 +264,13 @@ body.theme-metallic-sky .judo-btn.primary {
     align-items: center;
     cursor: pointer;
     backdrop-filter: blur(5px);
+    position: relative;
+    z-index: 2;
+    transition: transform 0.2s ease;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
 }
 
 .theme-toggle svg {
@@ -287,21 +283,20 @@ body.theme-metallic-sky .judo-btn.primary {
     position: absolute;
     top: 60px;
     right: 0;
-    width: 200px;
-    background: var(--color-card-bg);
-    backdrop-filter: blur(15px);
+    width: 220px;
+    background-color: var(--color-card-bg);
     border: 1px solid var(--color-card-border);
     border-radius: 12px;
-    padding: 5px;
+    padding: 0.5rem;
+    backdrop-filter: blur(10px); /* The professional blur from your main page */
     opacity: 0;
+    transform: translateY(-10px) scale(0.95); /* The "attractive" entry animation */
     pointer-events: none;
-    transform: translateY(-10px);
-    transition: all 0.2s ease;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 1;
     display: flex;
     flex-direction: column;
-    backdrop-filter: blur(15px); /* Professional frosted glass */
-    transform: translateY(-10px) scale(0.95);
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    gap: 0.25rem;
 }
 
 .theme-options.visible {
@@ -311,22 +306,37 @@ body.theme-metallic-sky .judo-btn.primary {
 }
 
 .theme-option-btn {
-    padding: 10px;
+    background-color: transparent;
     border: none;
-    background: transparent;
     color: var(--color-text-main);
-    text-align: left;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
     cursor: pointer;
-    border-radius: 6px;
-    font-weight: 500;
+    font-family: var(--font-family-main);
+    font-size: 1rem;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    transition: background-color 0.2s ease;
 }
 
 .theme-option-btn:hover {
-    background: rgba(0,0,0,0.05);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 body.theme-metallic-sky .theme-option-btn:hover {
-    background: rgba(255,255,255,0.1);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* The color swatch logic that makes the main page look superior */
+.theme-swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--color-card-border);
+    flex-shrink: 0;
 }
 
 /* ==========================================================================
@@ -363,8 +373,16 @@ body.theme-metallic-sky .theme-option-btn:hover {
         border-width: 1px;
     }
 
+    
+
+    body.theme-metallic-sky #judo-hero {
+        background: 
+            linear-gradient(to right, rgba(0, 0, 0, 0.7) 0%, transparent 60%),
+            radial-gradient(circle at top right, var(--judo-glow), transparent 70%);
+    }
+
     /* Theme toggle logic */
-    .theme-toggle {
+   .theme-toggle {
         width: 35px;
         height: 35px;
     }
@@ -372,12 +390,6 @@ body.theme-metallic-sky .theme-option-btn:hover {
     .theme-toggle svg {
         width: 16px;
         height: 16px;
-    }
-
-    body.theme-metallic-sky #judo-hero {
-        background: 
-            linear-gradient(to right, rgba(0, 0, 0, 0.7) 0%, transparent 60%),
-            radial-gradient(circle at top right, var(--judo-glow), transparent 70%);
     }
 
     .theme-options {
