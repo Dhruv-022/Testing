@@ -104,6 +104,14 @@ body.theme-metallic-sky .judo-title-main {
     background: rgba(0, 229, 255, 0.05);
 }
 
+.theme-swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--color-card-border);
+    flex-shrink: 0;
+}
+
 .judo-subtitle {
     font-size: 1.2rem;
     color: var(--color-text-main);
@@ -291,12 +299,15 @@ body.theme-metallic-sky .judo-btn.primary {
     transition: all 0.2s ease;
     display: flex;
     flex-direction: column;
+    backdrop-filter: blur(15px); /* Professional frosted glass */
+    transform: translateY(-10px) scale(0.95);
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .theme-options.visible {
     opacity: 1;
+    transform: translateY(0) scale(1);
     pointer-events: auto;
-    transform: translateY(0);
 }
 
 .theme-option-btn {
