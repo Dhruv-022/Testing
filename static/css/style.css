@@ -1303,36 +1303,58 @@ body.intro-active {
     }
 
     /*Project Cards/*
-    /* 1. Reduce the Card Container Scale */
+    * 1. Make the Cards Smaller: Reduced height and width */
     .project-card {
-        /* Reduced from 380px to 340px to make them less bulky on mobile */
-        min-height: 340px !important; 
-        margin-bottom: 1.5rem; /* Slight gap between stacked cards */
-        border-radius: 10px; /* Sharper corners for a smaller scale */
+        /* Dropped significantly from 340px to 290px for a compact look */
+        min-height: 290px !important;
+        /* Pulls cards slightly away from the edges for a smaller appearance */
+        width: 88%;
+        margin: 0 auto 1.5rem auto; /* Centers the shrunken card */
+        
+        /* 2. Make the Corners More Rounded */
+        border-radius: 20px !important; /* Significant increase from 10px */
+        
+        /* Prevents the background gradient/image from leaking past the new curve */
+        overflow: hidden; 
     }
 
-    /* 2. Tighten the Inner Content Padding */
+    /* 3. Tighten the Inner Content: Less padding keeps text from touching edges */
     .project-content {
-        padding: 1.2rem; /* Reduced from 1.5rem to pull text away from edges */
+        /* Reduced from 1.2rem to 1rem for maximum compactness */
+        padding: 1rem; 
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* Keeps Title top, Button bottom */
     }
 
-    /* 3. Scale down the Card Heading & Description */
+    /* 4. Font Sizes (Keeping them exactly as you approved) */
     .project-content h3 {
-        font-size: 1.3rem; /* Reduced from 1.5rem */
-        margin-bottom: 0.4rem;
+        font-size: 1.3rem;
+        margin-bottom: 0.2rem; /* Minimum gap needed for new curve */
     }
 
     .project-content p {
-        font-size: 0.85rem; /* Reduced from 0.9rem */
-        margin-bottom: 0.8rem;
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem; /* Tightened gap before the button */
         line-height: 1.4;
+        /* Prevent long descriptions from being cut off on smaller cards */
+        display: -webkit-box;
+        -webkit-line-clamp: 4; /* Limit to 4 lines on very small phones */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 
-    /* 4. Match the Project Button to the new scale */
+    /* 5. Scale the Button to match the smaller width */
+    .project-links {
+        padding-top: 10px; /* Minimal gap */
+    }
+
     .project-btn {
         padding: 0.4rem 0.8rem;
         font-size: 0.85rem;
-        max-width: 130px; /* Slightly narrower to fit the card width */
+        /* Slightly narrower to look proportionate on the shrunken card */
+        max-width: 120px; 
     }
 
 }
