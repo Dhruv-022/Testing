@@ -885,6 +885,23 @@ body.intro-active {
     .action-buttons {
         margin-top: 1.5rem;
     }
+
+    .theme-toggle {
+        width: 35px !important;  /* Reduced from 50px */
+        height: 35px !important; /* Reduced from 50px */
+    }
+
+    /* Match Judo page icon scale */
+    .theme-toggle svg {
+        width: 16px !important;  /* Reduced from 24px */
+        height: 16px !important; /* Reduced from 24px */
+    }
+
+    /* Match Judo page menu positioning */
+    .theme-options {
+        top: 45px;    /* Adjusted for the smaller button */
+        width: 170px; /* More compact for mobile */
+    }
 }
 /* ADDED for theme toggler */
 .theme-selector-container {
