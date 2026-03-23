@@ -1229,8 +1229,35 @@ body.intro-active {
 @media (max-width: 768px) {
     /* Significantly raises the heading higher on the mobile screen */
     .hero-content {
-        transform: translateY(-25%); /* Increased from -10% to move heading further up */
-        padding-bottom: 2rem;       /* Maintains space below the text */
+        /* Moves the content up and ensures it stays centered as a unit */
+        transform: translateY(-25%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .hero-headline {
+        font-size: 2.2rem;
+        /* THE STABILIZER: Reserves space for exactly 2 lines of text */
+        /* Calculation: font-size (2.2rem) * line-height (approx 1.2) * 2 lines */
+        min-height: 5.5rem; 
+        margin-bottom: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Keeps single-line text vertically centered in the reserved space */
+    }
+
+    .hero-subheadline {
+        font-size: 1.1rem; /* Slightly reduced for better mobile flow */
+        max-width: 90%;
+        line-height: 1.4;
+        margin: 0 auto;
+        /* This text will now remain stationary regardless of title length */
+    }
+
+    .typewriter-cursor {
+        height: 2.2rem;
     }
 
     /* Keeps the scroll indicator at the 5rem position you requested */
@@ -1238,12 +1265,4 @@ body.intro-active {
         bottom: 5rem; 
     }
 
-    /* Maintains reduced headline size for mobile screen fit */
-    .hero-headline {
-        font-size: 2.2rem; 
-    }
-    
-    .typewriter-cursor {
-        height: 2.2rem; 
-    }
 }
