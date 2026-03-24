@@ -1351,10 +1351,30 @@ body.intro-active {
     }
 
     .project-btn {
+        /* 1. The Glassy Border: 
+           Using rgba to make the blue 'breathable' and less solid */
+        border: 1.5px solid rgba(255, 255, 255, 0.3) !important;
+        
+        /* 2. The Shining Glow:
+           This adds a soft 'aura' around the button that feels alive */
+        box-shadow: 0 0 8px rgba(25, 118, 210, 0.3), 
+                    inset 0 0 4px rgba(255, 255, 255, 0.1);
+        
+        /* 3. Material Feel */
+        background-color: rgba(255, 255, 255, 0.05) !important;
+        backdrop-filter: blur(4px);
+        
+        /* Keeping your approved sizes */
         padding: 0.4rem 0.8rem;
         font-size: 0.85rem;
-        /* Slightly narrower to look proportionate on the shrunken card */
-        max-width: 120px; 
+        max-width: 120px;
+        color: rgba(255, 255, 255, 0.9);
+        transition: all 0.3s ease; /* Ensures smooth transition to your 'extraordinary' hover */
     }
 
+    /* Metallic Sky specific: Makes the glow match your lighter blue accent */
+    .theme-metallic-sky .project-btn {
+        border-color: rgba(129, 212, 250, 0.4) !important;
+        box-shadow: 0 0 10px rgba(129, 212, 250, 0.2);
+    }
 }
