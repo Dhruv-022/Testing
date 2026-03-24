@@ -1445,4 +1445,55 @@ body.intro-active {
     .more-info-content {
         overflow: visible; /* Allows the content to show if it exceeds the box slightly */
     }
+
+    .public-vault-wrapper .section-title {
+        font-size: 1.8rem !important; /* !important ensures it overrides any base style */
+        margin-bottom: 0.8rem !important;
+        text-align: center;
+        width: 100%;
+    }
+
+    /* Target the specific description inside the vault */
+    .public-vault-wrapper p {
+        font-size: 0.9rem !important;
+        line-height: 1.5 !important;
+        max-width: 85% !important;
+        margin: 0 auto 2.5rem auto !important; /* The 'auto' here fixes the right-side shift */
+        text-align: center;
+        opacity: 0.8;
+    }
+
+    /* 2. Fix the Card Alignment (Centering the Grid) */
+    .vault-grid {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centers the cards horizontally */
+        justify-content: center;
+        width: 100%;
+        gap: 1.5rem;
+        margin: 0 auto;
+    }
+
+    .vault-card {
+        width: 90% !important; /* Sets a consistent width for mobile */
+        max-width: 350px;       /* Prevents them from getting too wide */
+        margin: 0 auto !important; /* Forces the card to stay in the center */
+        padding: 2rem 1.5rem !important;
+        border-radius: 20px !important;
+    }
+
+    /* 3. Scale the Vault Card content */
+    .vault-card i {
+        font-size: 2.8rem !important;
+    }
+
+    .vault-card h3 {
+        font-size: 1.4rem !important;
+        text-align: center;
+    }
+
+    .vault-card p {
+        font-size: 0.85rem !important;
+        margin-bottom: 1rem !important;
+    }
 }
