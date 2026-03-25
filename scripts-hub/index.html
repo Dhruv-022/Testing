@@ -62,25 +62,6 @@
             text-transform: uppercase;
         }
 
-        .scripts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-            gap: 24px;
-        }
-
-        @media (max-width: 600px) {
-  body {
-    padding: 24px 16px 48px 16px;
-  }
-
-  .scripts-grid {
-    grid-template-columns: 1fr;       /* one card per row */
-  }
-
-  .script-card {
-    padding: 20px;                    /* less padding on mobile */
-  }
-}
         .script-card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -94,6 +75,41 @@
             overflow: visible; 
         }
 
+
+        .scripts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 24px;
+        }
+
+       @media (max-width: 600px) {
+            /* Existing rules */
+            body {
+                padding: 24px 16px 48px 16px;
+            }
+
+  /* Further reduced Heading size */
+            h1 { 
+                font-size: 1.5rem; /* Reduced from 2.5rem to 1.5rem for a compact look */
+                line-height: 1.2;
+                margin-bottom: 4px;
+            }
+
+            /* Adjust subtitle to match the smaller heading */
+            .subtitle {
+                font-size: 0.7rem; 
+                letter-spacing: 0.5px;
+            }
+
+            .scripts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .script-card {
+                padding: 20px;
+            }       
+        }
+        
         /* --- Individual Card Canvas --- */
         .card-particles {
             position: absolute;
