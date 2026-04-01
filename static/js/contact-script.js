@@ -180,24 +180,27 @@ document.addEventListener('DOMContentLoaded', () => {
         target.appendChild(circle);
     }
 
-    // --- Form Submission with Django Backend ---
+    // --- Form Submission Updated for Vercel Serverless ---
     if (contactForm && submitBtn) {
         contactForm.addEventListener('submit', (e) => {
-            e.preventDefault(); // Intercept default form submission
+            e.preventDefault(); 
             createRipple({ clientX: e.x, clientY: e.y, currentTarget: submitBtn });
 
             submitBtn.textContent = 'Transmitting...';
             submitBtn.disabled = true;
 
+            // Convert form data to a plain JSON object
             const formData = new FormData(contactForm);
+            const dataObject = Object.fromEntries(formData.entries());
 
-            // Updated URL to match api/urls.py 'send-discord/'
-            fetch('/send-discord/', {
+            // Point to your new Vercel Serverless Function
+            fetch('/api/contact', {
                 method: 'POST',
-                body: formData,
                 headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(dataObject) 
             })
             .then(response => {
                 if (!response.ok) throw new Error('Transmission Failed');

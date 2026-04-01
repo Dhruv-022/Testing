@@ -12,10 +12,10 @@
         })();
     </script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=Lora:wght@700&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/judo/style.css" />
     <style>
         /* Ensures the background canvas stays behind the content */
         #judo-background-canvas {
@@ -40,13 +40,15 @@
             </svg>
         </button>
         <div class="theme-options" id="theme-options-menu" role="menu">
-            <button class="theme-option-btn" role="menuitem" data-theme="theme-lucid-blue">
-                Lucid Blue
-            </button>
-            <button class="theme-option-btn" role="menuitem" data-theme="theme-metallic-sky">
-                Metallic Sky
-            </button>
-        </div>
+    <button class="theme-option-btn" role="menuitem" data-theme="theme-lucid-blue">
+        <span class="theme-swatch" style="background: linear-gradient(to bottom, #ffffff, #bbdefb);"></span>
+        Lucid Blue
+    </button>
+    <button class="theme-option-btn" role="menuitem" data-theme="theme-metallic-sky">
+        <span class="theme-swatch" style="background-color: #111827;"></span>
+        Metallic Sky
+    </button>
+</div>
     </div>
 
     <div id="judo-hero">
@@ -60,7 +62,7 @@
                 <p class="judo-subtitle">A unique Discord utility for management, moderation, entertainment, and total server security.</p>
                 
                 <div class="judo-actions">
-                    <a href="https://discord.com/oauth2/authorize?client_id=1399230366039937104&permissions=8&integration_type=0&scope=bot" class="judo-btn primary" target="_blank">Invite Judo</a>
+                    <a href="https://discord.com/oauth2/authorize?client_id=1399230366039937104&amp;permissions=8&amp;integration_type=0&amp;scope=bot" class="judo-btn primary" target="_blank">Invite Judo</a>
                     <a href="https://discord.gg/vSSmeJqy" class="judo-btn secondary" target="_blank">Join Support Server</a>
                 </div>
             </header>
@@ -128,7 +130,7 @@
                         backBtnContainer.style.display = 'flex';
                         // Ensure the link leads to the root portfolio path
                         const backLink = document.getElementById('back-to-portfolio');
-                        if (backLink) backLink.setAttribute('href', '/');
+                        if (backLink) backLink.setAttribute('href', '../../index.html');
                     }
                 }
             }, 1000);
@@ -249,4 +251,5 @@
         });
     </script>
 </body>
+
 </html>

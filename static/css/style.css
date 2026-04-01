@@ -182,6 +182,99 @@ body.intro-active {
  INTRO OVERLAY STYLES
 ==========================================================================
 */
+
+/* --- REFINED INTRO SEQUENCE STYLES --- */
+.intro-sequence {
+    display: flex;
+    flex-direction: column;
+    /* Aligns all children (Era, Presents, Name) to the left of the container */
+    align-items: flex-start; 
+    justify-content: center;
+    /* Keeps the entire block in the center of the screen */
+    margin: 0 auto;
+    gap: 0.2rem;
+    z-index: 10;
+}
+
+.intro-small-text {
+    font-family: var(--font-family-intro); /* Lora, serif */
+    /* Remove bold: using 300 or 400 to match the main text's weight */
+    font-weight: 400; 
+    /* Significantly smaller size as requested */
+    font-size: clamp(0.8rem, 2vw, 1.2rem); 
+    color: #e8eaf6;
+    text-shadow: 0 0 8px rgba(232, 234, 246, 0.5), 0 0 20px rgba(92, 107, 192, 0.5);
+    opacity: 0;
+    margin: 0;
+    /* Ensures they stay left-aligned even if the container grows */
+    text-align: left;
+}
+
+/* Adjust the main name container to ensure it doesn't force centering */
+#intro-text {
+    margin: 0;
+    text-align: left;
+    display: flex;
+    flex-wrap: wrap;
+    transition: opacity 1s ease-out;
+}
+
+/* Animation timings remain the same for the sequence */
+#intro-era {
+    opacity: 1;
+    animation: fadeOutContainer 0.8s ease forwards;
+    animation-delay: 3.5s; /* Wait for typewriter to finish */
+}
+
+@keyframes scaleInFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9); /* Subtle scale is smoother than 0.5 */
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+#intro-presents {
+    opacity: 1;
+    /* This animation will trigger the fade-out */
+    animation: fadeOutContainer 0.8s ease forwards;
+    /* 8.5s ensures it stays visible through the name reveal 
+       but disappears exactly as the overlay starts its 9.5s transition */
+    animation-delay: 8.5s; 
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateX(5px); }
+    15% { opacity: 1; transform: translateX(0); } /* Quick fade in */
+    85% { opacity: 1; transform: translateX(0); } /* Long hold */
+    100% { opacity: 0; transform: translateX(-5px); } /* Smooth fade out */
+}
+
+@keyframes fadeOutContainer {
+    from { 
+        opacity: 1; 
+    }
+    to { 
+        opacity: 0; 
+        /* Removing translateY to ensure no "jumping" during the exit */
+    }
+}
+
+@keyframes fadeInStay {
+    0% { opacity: 0; transform: translateX(5px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+
+.intro-sequence span {
+    display: inline-block;
+    opacity: 0;
+    animation: scaleInFadeIn 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+
 #intro-overlay {
     position: fixed;
     top: 0;
@@ -196,7 +289,7 @@ body.intro-active {
     align-items: center;
     opacity: 1;
     transition: opacity 2s ease-out, backdrop-filter 2s ease-out;
-    --intro-duration: 6000ms;
+    --intro-duration: 9500ms;
 }
 
 #intro-overlay.hidden {
@@ -346,10 +439,17 @@ body.intro-active {
 }
 
 .hero-subheadline {
-    font-size: var(--font-size-p);
+    /* Reduced from 1.5rem to 1.15rem for a more professional, sleek look */
+    font-size: 1.15rem; 
     font-weight: 400;
     color: #1976d2;
-    text-shadow: 0 0 6px rgba(25, 118, 210, 0.5);
+    text-shadow: 0 0 6px rgba(25, 118, 210, 0.4);
+    
+    /* Layout improvements for wide screens */
+    max-width: 700px;
+    margin: 0.5rem auto 0 auto;
+    line-height: 1.6;
+    opacity: 0.9;
 }
 
 .scroll-indicator {
@@ -487,7 +587,8 @@ body.intro-active {
 }
 
 .more-info-content.expanded {
-    max-height: 1000px;
+    /* Increased from 1000px to 2000px to account for mobile text wrapping */
+    max-height: 2000px; 
     opacity: 1;
 }
 
@@ -792,6 +893,23 @@ body.intro-active {
     .action-buttons {
         margin-top: 1.5rem;
     }
+
+    .theme-toggle {
+        width: 35px !important;  /* Reduced from 50px */
+        height: 35px !important; /* Reduced from 50px */
+    }
+
+    /* Match Judo page icon scale */
+    .theme-toggle svg {
+        width: 16px !important;  /* Reduced from 24px */
+        height: 16px !important; /* Reduced from 24px */
+    }
+
+    /* Match Judo page menu positioning */
+    .theme-options {
+        top: 45px;    /* Adjusted for the smaller button */
+        width: 170px; /* More compact for mobile */
+    }
 }
 /* ADDED for theme toggler */
 .theme-selector-container {
@@ -929,6 +1047,7 @@ body.intro-active {
 #crypto-card .project-btn:hover::after {
     display: none;
 }
+
 
 /* ==========================================================================
    RESUME ACTION BUTTON REFINEMENTS
@@ -1114,3 +1233,294 @@ body.intro-active {
 .vault-card h3 { font-size: 1.8rem; color: var(--color-text-main); margin-bottom: 1rem; }
 .vault-card p { font-size: 0.95rem; color: var(--color-text-main); opacity: 0.7; line-height: 1.6; margin-bottom: 2rem; text-align: center; }
 .vault-link-text { font-weight: 700; color: var(--color-text-accent); text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem; }
+
+/* --- MOBILE RESPONSIVENESS OVERRIDES --- */
+@media (max-width: 768px) {
+    /* Significantly raises the heading higher on the mobile screen */
+    .hero-content {
+        /* Pushing significantly higher from -35% to -55% */
+        transform: translateY(-55%); 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 90%; 
+        margin: 0 auto;
+        /* Ensures the text doesn't feel cramped against the top */
+        padding-top: 1rem; 
+    }
+
+    .hero-headline {
+        font-size: 2.1rem; /* Slightly smaller to help the upward "lift" */
+        height: 5.5rem;    /* Reduced height box to bring description closer */
+        line-height: 1.2;
+        margin-bottom: 0.2rem; /* Minimal gap for maximum upward pull */
+        display: flex;
+        align-items: center; 
+        justify-content: center;
+        text-align: center;
+    }
+
+    .hero-subheadline {
+        font-size: 0.95rem; 
+        line-height: 1.4;
+        /* INCREASED WIDTH: Changed from 80% to 92% to pull text to the sides */
+        width: 92%;
+        max-width: 500px; /* High enough to stay out of the way on most phones */
+        margin: 0 auto;
+        opacity: 0.8;
+        text-align: center;
+        /* Balanced word wrapping */
+        word-spacing: -0.5px; 
+    }
+
+    /* Adjust cursor to match new headline size */
+    .typewriter-cursor {
+        height: 2.1rem;
+    }
+    /* Keeps the scroll indicator at the 5rem position you requested */
+    .scroll-indicator {
+        bottom: 5rem; 
+    }
+
+    /* 1. Reduce the "About Me" heading size */
+    .about-me .section-title {
+        font-size: 1.8rem; /* Reduced from 2rem to match the new Hero scale */
+        margin-bottom: 1.2rem;
+        letter-spacing: -0.5px;
+    }
+
+    /* 2. Refine the main bio description */
+    .about-me .bio-text {
+        font-size: 0.95rem; /* Matches the hero-subheadline size for a unified feel */
+        line-height: 1.6;    /* Keeps it readable but compact */
+        max-width: 92%;     /* Allows it to spread out like the hero text */
+        margin: 0 auto 2rem auto;
+        opacity: 0.9;
+        text-align: center;
+    }
+
+    /* 3. Tighten the overall section padding */
+    .about-me {
+        padding: 4rem 1.5rem; /* Reduced top/bottom padding for a snappier scroll */
+    }
+
+    /*Project Cards/*
+    * 1. Make the Cards Smaller: Reduced height and width */
+    .project-card {
+        /* Dropped significantly from 340px to 290px for a compact look */
+        min-height: 290px !important;
+        /* Pulls cards slightly away from the edges for a smaller appearance */
+        width: 88%;
+        margin: 0 auto 1.5rem auto; /* Centers the shrunken card */
+        
+        /* 2. Make the Corners More Rounded */
+        border-radius: 20px !important; /* Significant increase from 10px */
+        
+        /* Prevents the background gradient/image from leaking past the new curve */
+        overflow: hidden; 
+    }
+
+    /* 3. Tighten the Inner Content: Less padding keeps text from touching edges */
+    .project-content {
+        /* Reduced from 1.2rem to 1rem for maximum compactness */
+        padding: 1rem; 
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* Keeps Title top, Button bottom */
+    }
+
+    /* 4. Font Sizes (Keeping them exactly as you approved) */
+    .project-content h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.2rem; /* Minimum gap needed for new curve */
+    }
+
+    .project-content p {
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem; /* Tightened gap before the button */
+        line-height: 1.4;
+        /* Prevent long descriptions from being cut off on smaller cards */
+        display: -webkit-box;
+        -webkit-line-clamp: 4; /* Limit to 4 lines on very small phones */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* 5. Scale the Button to match the smaller width */
+    .project-links {
+        padding-top: 10px; /* Minimal gap */
+    }
+
+    .project-btn {
+        /* 1. The Glassy Border: 
+           Using rgba to make the blue 'breathable' and less solid */
+        border: 1.5px solid rgba(255, 255, 255, 0.3) !important;
+        
+        /* 2. The Shining Glow:
+           This adds a soft 'aura' around the button that feels alive */
+        box-shadow: 0 0 8px rgba(25, 118, 210, 0.3), 
+                    inset 0 0 4px rgba(255, 255, 255, 0.1);
+        
+        /* 3. Material Feel */
+        background-color: rgba(255, 255, 255, 0.05) !important;
+        backdrop-filter: blur(4px);
+        
+        /* Keeping your approved sizes */
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+        max-width: 120px;
+        color: rgba(255, 255, 255, 0.9);
+        transition: all 0.3s ease; /* Ensures smooth transition to your 'extraordinary' hover */
+    }
+
+    /* Metallic Sky specific: Makes the glow match your lighter blue accent */
+    .theme-metallic-sky .project-btn {
+        border-color: rgba(129, 212, 250, 0.4) !important;
+        box-shadow: 0 0 10px rgba(129, 212, 250, 0.2);
+    }
+
+    @media (max-width: 768px) {
+    /* ... your existing hero and project card rules ... */
+
+    /* 1. Thinning the Action Buttons Outline */
+    .more-info-toggle,
+    .download-resume-btn,
+    #view-resume-btn {
+        /* Dropped from 2px to 1px for a sleeker, thinner outline */
+        border-width: 1px !important;
+        
+        /* Maintaining your approved spacing and shape */
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+        border-radius: 50px;
+        
+        /* Ensure the 'extraordinary' effects remain untouched */
+        transition: all 0.3s ease;
+    }
+
+    /* 2. Gap Adjustment for 4 Buttons */
+    .action-buttons {
+        gap: 0.8rem; /* Slightly tighter gap to keep the 'thinner' look balanced */
+        margin-top: 1.5rem;
+    }
+}
+
+    .timeline-date {
+        font-size: 0.85rem; /* Small but sharp for the dates */
+        margin-bottom: 0.2rem;
+    }
+
+    .timeline-title {
+        font-size: 1.1rem; /* Reduced from 1.3rem - keeps it a clear heading */
+        margin-bottom: 0.4rem;
+        line-height: 1.3;
+    }
+
+    .timeline-description {
+        font-size: 0.9rem; /* Perfectly matches your bio and hero subheadline */
+        line-height: 1.5;
+        opacity: 0.85;
+        margin-bottom: 1rem;
+    }
+
+    /* 2. Tighten the Timeline spacing */
+    .timeline-item {
+        padding-left: 35px; /* Reduced from 40px/50px to save horizontal space */
+        margin-bottom: 1.5rem;
+    }
+
+    /* 3. Scale the indicator dots */
+    .timeline-item::before {
+        width: 14px; /* Slightly smaller dots for a more 'engineered' look */
+        height: 14px;
+        left: 0px; 
+    }
+
+    .more-info-content.expanded {
+        /* Mobile text is long, so we give it even more room */
+        max-height: 2500px; 
+    }
+    
+    /* Ensure the container doesn't hide the 2026 content */
+    .more-info-content {
+        overflow: visible; /* Allows the content to show if it exceeds the box slightly */
+    }
+
+    .public-vault-wrapper .section-title {
+        font-size: 1.8rem !important; /* !important ensures it overrides any base style */
+        margin-bottom: 0.8rem !important;
+        text-align: center;
+        width: 100%;
+    }
+
+    /* Target the specific description inside the vault */
+    .public-vault-wrapper p {
+        font-size: 0.9rem !important;
+        line-height: 1.5 !important;
+        max-width: 85% !important;
+        margin: 0 auto 2.5rem auto !important; /* The 'auto' here fixes the right-side shift */
+        text-align: center;
+        opacity: 0.8;
+    }
+
+    /* 2. Fix the Card Alignment (Centering the Grid) */
+    .vault-grid {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centers the cards horizontally */
+        justify-content: center;
+        width: 100%;
+        gap: 1.5rem;
+        margin: 0 auto;
+    }
+
+    .vault-card {
+        width: 90% !important; /* Sets a consistent width for mobile */
+        max-width: 350px;       /* Prevents them from getting too wide */
+        margin: 0 auto !important; /* Forces the card to stay in the center */
+        padding: 2rem 1.5rem !important;
+        border-radius: 20px !important;
+    }
+
+    /* 3. Scale the Vault Card content */
+    .vault-card i {
+        font-size: 2.8rem !important;
+    }
+
+    .vault-card h3 {
+        font-size: 1.4rem !important;
+        text-align: center;
+    }
+
+    .vault-card p {
+        font-size: 0.85rem !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .email-link {
+        /* Reduced from 1.1rem to 0.9rem to match the bio/subheadline scale */
+        font-size: 0.9rem !important; 
+        letter-spacing: 0.3px;
+        opacity: 0.8;
+        display: block;
+        text-align: center;
+        width: 100%;
+        margin: 0.2rem 0;
+    }
+
+    /* 2. Refine the Footer Icons and Copyright */
+    .footer-socials .footer-link i {
+        font-size: 1.6rem; /* Slightly smaller icons for a tighter footer */
+    }
+
+    .footer-copyright {
+        font-size: 0.75rem; /* Subtle and minimalist */
+        margin-top: 0.8rem;
+    }
+
+    /* 3. Tighten the Footer Container */
+    .main-footer {
+        padding: 2rem 1.5rem; /* Reduced padding for a cleaner finish */
+    }
+}
