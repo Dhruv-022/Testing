@@ -503,14 +503,8 @@ function initAboutMeSection() {
     }
 
     if (resumeButton) {
-        const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
-        if (isMobile) {
-            resumeButton.href = "https://www.linkedin.com/in/dhruv-vaishnav";
-            resumeButton.target = "_blank";
-        } else {
-            resumeButton.addEventListener('click', downloadResume);
-        }
-    }
+    resumeButton.addEventListener('click', downloadResume);
+}
 
     setupAnimation();
     window.addEventListener('resize', setupAnimation);
