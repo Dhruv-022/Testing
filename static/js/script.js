@@ -502,9 +502,7 @@ function initAboutMeSection() {
         });
     }
 
-    if (resumeButton) {
-    resumeButton.addEventListener('click', downloadResume);
-}
+
 
     setupAnimation();
     window.addEventListener('resize', setupAnimation);
