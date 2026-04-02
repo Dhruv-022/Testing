@@ -10,156 +10,64 @@
     
     <style>
         :root {
-            /* Dark Theme Defaults */
-            --bg: #000000;
-            --surface: #111111;
-            --border: #333333;
-            --text-main: #ededed;
-            --text-muted: #888888;
-            --brand-blue: #ffffff; /* White in dark mode for high contrast */
-            --title-shadow: rgba(255, 255, 255, 0.1);
+            --bg: #000000; --surface: #111111; --border: #333333;
+            --text-main: #ededed; --text-muted: #888888;
+            --brand-blue: #ffffff; --title-shadow: rgba(255, 255, 255, 0.1);
         }
-
         body.light-theme {
-            /* Light Theme Overrides */
-            --bg: #ffffff;
-            --surface: #fafafa;
-            --border: #eaeaea;
-            --text-main: #171717;
-            --text-muted: #666666;
-            --brand-blue: #1976d2; /* Exact Brand Blue from main page */
-            --title-shadow: rgba(25, 118, 210, 0.2);
-            --button-blue: #1976d2;
+            --bg: #ffffff; --surface: #fafafa; --border: #eaeaea;
+            --text-main: #171717; --text-muted: #666666;
+            --brand-blue: #1976d2; --title-shadow: rgba(25, 118, 210, 0.2);
         }
-
-        html { scrollbar-gutter: stable; }
-
         body {
-            background-color: var(--bg);
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 40px 10% 80px 10%;
+            background-color: var(--bg); color: var(--text-main);
+            font-family: 'Inter', sans-serif; margin: 0; padding: 40px 10% 80px 10%;
             transition: background 0.3s ease;
         }
-
-        /* --- Header Section --- */
-        header {
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 24px;
-            margin-top: -10px;
-            margin-bottom: 60px;
-            text-align: center;
-        }
-
-        h1 { 
-            font-family: 'Inter', sans-serif; 
-            font-size: 2.8rem; 
-            margin: 0; 
-            font-weight: 700; 
-            color: var(--brand-blue);
-            letter-spacing: -0.5px;
-            text-shadow: 0 2px 10px var(--title-shadow);
-            transition: all 0.5s ease;
-        }
-
-        .subtitle {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            margin-top: 12px;
-            text-transform: uppercase;
-            letter-spacing: 4px; 
-            opacity: 0.7;
-        }
-
-        /* --- Scripts Grid Container (Currently Empty) --- */
-        .scripts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 30px;
-        }
-
-        /* --- Theme Toggle Button --- */
-        .theme-toggle {
-            position: fixed; 
-            top: 30px; 
-            right: 30px;
-            background: var(--surface); 
-            border: 1px solid var(--border);
-            color: var(--text-main); 
-            padding: 10px; 
-            cursor: pointer;
-            border-radius: 50%;
-            z-index: 100;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        header { border-bottom: 1px solid var(--border); padding-bottom: 24px; margin-bottom: 60px; text-align: center; }
+        h1 { font-size: 2.8rem; font-weight: 700; color: var(--brand-blue); text-shadow: 0 2px 10px var(--title-shadow); margin: 0; }
+        .subtitle { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--text-muted); margin-top: 12px; text-transform: uppercase; letter-spacing: 4px; }
         
-        .theme-toggle:hover {
-            border-color: var(--brand-blue);
-            box-shadow: 0 0 10px var(--title-shadow);
+        .scripts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 20px; }
+
+        /* --- THE CARD --- */
+        .script-card {
+            background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+            padding: 14px 20px; cursor: pointer; transition: all 0.3s ease;
+            min-height: 85px; position: relative; z-index: 1;
         }
+        .script-card:hover { border-color: #1976d2; transform: translateY(-3px); }
+        .script-card.active { border-color: #1976d2; box-shadow: 0 10px 30px rgba(25, 118, 210, 0.15); z-index: 10; }
 
-        @media (max-width: 768px) {
-            body { padding: 40px 5% 80px 5%; }
-            h1 { font-size: 2.2rem; }
-            .subtitle { font-size: 0.7rem; letter-spacing: 2px; }
+        .script-card h2 { font-size: 1.05rem; margin: 0; font-weight: 700; pointer-events: none; }
+        .card-desc { color: #1976d2; font-weight: 500; font-size: 0.78rem; margin-top: 4px; pointer-events: none; }
+        .tag { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; background: var(--border); padding: 2px 6px; border-radius: 3px; margin-bottom: 6px; color: var(--text-muted); display: inline-block; pointer-events: none; }
+
+        /* --- DRAWER --- */
+        .content-drawer {
+            display: none; padding-top: 18px; margin-top: 15px; border-top: 1px solid var(--border);
         }
+        .script-card.active .content-drawer { display: block; }
 
-        .card-desc {
-    color: #1976d2; /* The exact blue we chose */
-    font-weight: 500;
-    font-size: 0.9rem;
-    margin-top: 8px;
-}
+        .meta-group { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 18px; }
+        .meta-item h4 { font-size: 0.65rem; text-transform: uppercase; color: var(--text-muted); margin: 0 0 4px 0; }
+        .meta-item p { font-size: 0.82rem; margin: 0; }
 
-.content-drawer {
-    display: none; /* Hidden by default */
-    padding-top: 20px;
-    margin-top: 20px;
-    border-top: 1px solid var(--border);
-}
+        .btn {
+            background: var(--text-main); color: var(--bg); border: none; padding: 10px; width: 100%;
+            font-weight: 700; font-size: 0.75rem; cursor: pointer; border-radius: 6px;
+            display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s;
+        }
+        .btn.success { background: #1976d2 !important; color: #ffffff !important; }
 
-.script-card.active .content-drawer {
-    display: block;
-}
+        .theme-toggle { position: fixed; top: 30px; right: 30px; background: var(--surface); border: 1px solid var(--border); color: var(--text-main); padding: 10px; cursor: pointer; border-radius: 50%; z-index: 100; }
 
-.meta-group {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.meta-item h4 {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 5px;
-}
-
-.meta-item p {
-    font-size: 0.85rem;
-}
-
-.btn {
-    background: var(--text-main);
-    color: var(--bg);
-    border: none;
-    padding: 12px;
-    width: 100%;
-    font-weight: 700;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-}
+        @media (max-width: 768px) { .scripts-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
-<body class="light-theme"> <button class="theme-toggle" onclick="document.body.classList.toggle('light-theme')" aria-label="Toggle Theme">
+<body class="light-theme">
+
+    <button class="theme-toggle" onclick="document.body.classList.toggle('light-theme')">
         <i class="ri-contrast-2-line"></i>
     </button>
 
@@ -169,88 +77,79 @@
     </header>
 
     <main>
-        <div class="scripts-grid" id="scripts-container">
-            </div>
+        <div class="scripts-grid" id="scripts-container"></div>
     </main>
 
     <script>
         const CONTAINER = document.getElementById('scripts-container');
 
-async function addScriptCard(filePath) {
-    try {
-        const response = await fetch(filePath);
-        const text = await response.text();
+        async function addScriptCard(filePath) {
+            try {
+                const response = await fetch(filePath);
+                const text = await response.text();
+                const [metaSection, codeSection] = text.split('---');
+                const meta = {};
+                metaSection.trim().split('\n').forEach(line => {
+                    const [key, ...value] = line.split(': ');
+                    if (key) meta[key.trim()] = value.join(': ').trim();
+                });
 
-        // Part 1: Split Metadata from Code
-        const [metaSection, codeSection] = text.split('---');
-        
-        // Part 2: Parse Metadata into an object
-        const meta = {};
-        metaSection.trim().split('\n').forEach(line => {
-            const [key, ...value] = line.split(': ');
-            meta[key.trim()] = value.join(': ').trim();
-        });
-
-        // Part 3: Create the HTML Structure
-        const card = document.createElement('div');
-        card.className = 'script-card';
-        card.onclick = function() { this.classList.toggle('active'); };
-
-        card.innerHTML = `
-            <div class="card-header">
-                <div>
-                    <h2>${meta.TITLE}</h2>
-                    <span class="tag">${meta.TAG}</span>
-                </div>
-            </div>
-            <p class="card-desc">${meta.DESC}</p>
-
-            <div class="content-drawer" onclick="event.stopPropagation()">
-                <div class="meta-group">
-                    <div class="meta-item">
-                        <h4>Requirements</h4>
-                        <p>${meta.REQS}</p>
-                    </div>
-                    <div class="meta-item">
-                        <h4>Operation</h4>
-                        <p>${meta.OPER}</p>
-                    </div>
-                </div>
+                const card = document.createElement('div');
+                card.className = 'script-card';
                 
-                <button class="btn" onclick="copyCode(this, \`${codeSection.trim()}\`)">
-                    Copy Source Code
-                </button>
+                // Add Content
+                card.innerHTML = `
+                    <div class="tag">${meta.TAG || '0x000'}</div>
+                    <h2>${meta.TITLE || 'Untitled'}</h2>
+                    <p class="card-desc">${meta.DESC || 'No description.'}</p>
+                    <div class="content-drawer">
+                        <div class="meta-group">
+                            <div class="meta-item"><h4>Requirements</h4><p>${meta.REQS || 'None'}</p></div>
+                            <div class="meta-item"><h4>Operation</h4><p>${meta.OPER || 'Standard'}</p></div>
+                        </div>
+                        <button type="button" class="btn copy-btn"><i class="ri-file-copy-line"></i> Copy Source Code</button>
+                    </div>
+                `;
 
-                <div class="protocol-box">
-                    <h4>Execution Protocol</h4>
-                    <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.4;">
-                        ${meta.PROT}
-                    </p>
-                </div>
-            </div>
-        `;
+                // ISOLATED TOGGLE LOGIC
+                card.addEventListener('click', function(e) {
+                    // 1. If we clicked the button, ignore this
+                    if (e.target.closest('.copy-btn')) return;
 
-        CONTAINER.appendChild(card);
-    } catch (err) {
-        console.error("Error loading script:", filePath, err);
-    }
-}
+                    // 2. Check if this card is already active
+                    const isActive = this.classList.contains('active');
 
-// Universal Copy Function
-function copyCode(btn, code) {
-    navigator.clipboard.writeText(code);
-    const originalText = btn.innerText;
-    btn.innerText = "COPIED TO CLIPBOARD!";
-    btn.style.background = "#1976d2";
-    btn.style.color = "#ffffff";
-    
-    setTimeout(() => {
-        btn.innerText = originalText;
-        btn.style.background = "var(--accent)";
-        btn.style.color = "var(--bg)";
-    }, 2000);
-}
-addScriptCard('/static/scripts/vocal_greeting.txt');
+                    // 3. CLOSE ALL CARDS FIRST (Prevents simultaneous expansion)
+                    document.querySelectorAll('.script-card').forEach(c => c.classList.remove('active'));
+
+                    // 4. If the clicked card wasn't active, open it
+                    if (!isActive) {
+                        this.classList.add('active');
+                    }
+                });
+
+                // ISOLATED COPY LOGIC
+                const btn = card.querySelector('.copy-btn');
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Stop event from bubbling to card
+                    navigator.clipboard.writeText(codeSection.trim()).then(() => {
+                        const original = btn.innerHTML;
+                        btn.classList.add('success');
+                        btn.innerHTML = `<i class="ri-check-line"></i> COPIED SUCCESSFULLY!`;
+                        setTimeout(() => {
+                            btn.classList.remove('success');
+                            btn.innerHTML = original;
+                        }, 2000);
+                    });
+                });
+
+                CONTAINER.appendChild(card);
+            } catch (err) { console.error("Error loading card:", err); }
+        }
+
+        // Add your files
+        addScriptCard('/static/scripts/vocal_greeting.txt');
+        addScriptCard('/static/scripts/window_purification.txt');
     </script>
 </body>
 </html>
