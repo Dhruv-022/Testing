@@ -21,17 +21,24 @@
             --text-muted: #888888;
             --color-particle: rgba(255, 255, 255, 0.3);
             --color-particle-line: rgba(25, 118, 210, 0.15);
+            /* Adding the brand blue for Dark Theme (optional, or keep as white) */
+            --heading-blue: #ffffff;
         }
 
         body.light-theme {
-            --bg: #ffffff;
-            --surface: #fafafa;
-            --border: #eaeaea;
-            --accent: #000000;
-            --text-main: #171717;
-            --text-muted: #666666;
-            --color-particle: rgba(0, 0, 0, 0.1);
-        }
+    --bg: #ffffff;
+    --surface: #fafafa;
+    --border: #eaeaea;
+    --accent: #000000;
+    --text-main: #171717;
+    --text-muted: #666666;
+    --color-particle: rgba(0, 0, 0, 0.1);
+    
+    /* Gracious Blue Palette */
+    --heading-blue-deep: #0d47a1;   /* A deeper, more authoritative blue */
+    --heading-blue-vibrant: #1976d2; /* Your standard brand blue */
+    --heading-glow: rgba(13, 71, 161, 0.1);
+}
 
         html { scrollbar-gutter: stable; }
 
@@ -52,15 +59,36 @@
             text-align: center;
         }
 
-        h1 { font-family: 'Book Antiqua', serif; font-size: 2.5rem; margin: 0; font-weight: 400; }
+       h1 { 
+    font-family: 'Book Antiqua', serif; 
+    font-size: 2.8rem; 
+    margin: 0; 
+    /* Bold weight for prominence */
+    font-weight: 700; 
+    letter-spacing: 0.5px;
+    
+    /* Graceful Gradient */
+    background: linear-gradient(to bottom right, var(--heading-blue-deep), var(--heading-blue-vibrant));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    /* Soft Depth Shadow */
+    text-shadow: 2px 2px 4px var(--heading-glow);
+    
+    transition: all 0.5s ease;
+}
 
         .subtitle {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-top: 8px;
-            text-transform: uppercase;
-        }
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-top: 10px;
+    text-transform: uppercase;
+    /* Spaced out for engineering aesthetic */
+    letter-spacing: 4px; 
+    opacity: 0.7;
+}
 
         .script-card {
             background: var(--surface);
