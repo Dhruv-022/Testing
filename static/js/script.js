@@ -539,3 +539,35 @@ portfolioChannel.onmessage = (event) => {
     }
 };
 setInterval(() => portfolioChannel.postMessage('PORTFOLIO_IS_OPEN'), 1000);
+
+async function initVisitorCounter() {
+    const counterEl = document.getElementById('visitor-info');
+    if (!counterEl) return;
+
+    // To prevent spamming your Discord when you refresh, 
+    // we use sessionStorage to only count once per browser session.
+    if (sessionStorage.getItem('counted_in_session')) {
+        counterEl.innerText = "Nexus Online"; // Or hide it
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/log-visit/', { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // This ensures Django accepts the request
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
+        const data = await response.json();
+        counterEl.innerText = `Visitors: ${data.count}`;
+        sessionStorage.setItem('counted_in_session', 'true');
+    } catch (e) {
+        console.log("Connection to Analytics failed.");
+        counterEl.style.display = 'none'; 
+    }
+}
+
+// Ensure this is called when the page loads
+document.addEventListener('DOMContentLoaded', initVisitorCounter);
