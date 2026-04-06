@@ -2,6 +2,7 @@ import requests
 from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from .models import VisitorStats
+from django.shortcuts import render
 
 @ensure_csrf_cookie
 def log_visit(request):
@@ -42,3 +43,8 @@ def log_visit(request):
         return JsonResponse({"count": stats.total_visits})
     
     return JsonResponse({"error": "Method not allowed"}, status=405)
+
+
+def home(request):
+    # This tells Django to look for your index.html
+    return render(request, 'index.html')
