@@ -347,6 +347,69 @@ body.intro-active {
     }
 }
 
+
+.top-left-controls {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+}
+
+/* MATCHING YOUR THEME TOGGLE VISUALS */
+.glass-toggle {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05); /* Adjust based on your theme's glass */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--color-text-main);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.visitor-card {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 180px;
+    background: var(--color-bg-secondary, rgba(255, 255, 255, 0.05)); 
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 15px;
+    display: none; /* Keep hidden initially */
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: var(--card-shadow, 0 10px 30px rgba(0,0,0,0.2));
+}
+
+.visitor-card.active {
+    display: flex; /* Shown when JS toggles it */
+}
+
+/* The Green Signal */
+.green-dot {
+    width: 8px;
+    height: 8px;
+    background: #00ffaa;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00ffaa;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #00ffaa;
+}
 /*
 ==========================================================================
  HERO SECTION STYLES
@@ -1080,30 +1143,6 @@ body.intro-active {
 /* ==========================================================================
    REFINED MULTI-LINE MINIMALIST FOOTER
    ========================================================================== */
-.visitor-stat {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    /* We keep the container font-size standard */
-    font-size: 1rem; 
-    font-weight: 600;
-    color: var(--color-text-main);
-    opacity: 0.8;
-}
-
-.visitor-stat i {
-    /* Manually bumping the icon size to match the visual weight of GitHub/LinkedIn */
-    font-size: 1.4rem !important; 
-    /* This ensures the icon stays perfectly on the baseline of the other socials */
-    display: flex;
-    align-items: center;
-}
-
-/* Optional: Slight glow on the number to make it pop */
-#visitor-info {
-    color: var(--color-text-accent);
-}
-
 
    .main-footer {
     padding: 3rem 2rem;

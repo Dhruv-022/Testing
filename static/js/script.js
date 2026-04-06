@@ -602,3 +602,20 @@ async function initVisitorCounter() {
 
 // Single listener to start the counter
 document.addEventListener('DOMContentLoaded', initVisitorCounter);
+
+const vBtn = document.getElementById('visitor-btn');
+const vCard = document.getElementById('visitor-card');
+
+// Toggle the card when clicking the circle
+vBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    vCard.classList.toggle('active');
+});
+
+// Close card if clicking outside
+document.addEventListener('click', () => vCard.classList.remove('active'));
+
+// Update your fetch success logic to target the span inside the card
+// .then(data => {
+//    document.getElementById('visitor-info').innerText = `V ${data.count}`;
+// })
