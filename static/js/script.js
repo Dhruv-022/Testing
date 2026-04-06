@@ -540,34 +540,65 @@ portfolioChannel.onmessage = (event) => {
 };
 setInterval(() => portfolioChannel.postMessage('PORTFOLIO_IS_OPEN'), 1000);
 
+/*
+==========================================================================
+ VISITOR COUNTER LOGIC (DJANGO BACKEND)
+==========================================================================
+*/
+
+// Helper to get the CSRF token from cookies
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 async function initVisitorCounter() {
     const counterEl = document.getElementById('visitor-info');
     if (!counterEl) return;
 
-    // To prevent spamming your Discord when you refresh, 
-    // we use sessionStorage to only count once per browser session.
+    // Check if user has already been counted in this session
     if (sessionStorage.getItem('counted_in_session')) {
-        counterEl.innerText = "Nexus Online"; // Or hide it
+        // Optional: you could make a GET request here just to show the number 
+        // without incrementing, but for now, we'll just show status.
+        counterEl.innerText = "Nexus Online"; 
         return;
     }
 
     try {
         const response = await fetch('/api/log-visit/', { 
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                // This ensures Django accepts the request
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        });
+    method: 'POST',
+    headers: {
+        'X-CSRFToken': getCookie('csrftoken'), // Must match exactly
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+    }
+});
+        
+        if (!response.ok) throw new Error('Security or Server Error');
+        
+        // Inside your fetch success logic:
         const data = await response.json();
-        counterEl.innerText = `Visitors: ${data.count}`;
+        // Instead of "Visitors: n", we set "V n"
+        counterEl.innerText = `V ${data.count}`;
+        
+        // Mark as counted so refresh doesn't spam Discord
         sessionStorage.setItem('counted_in_session', 'true');
+        
     } catch (e) {
-        console.log("Connection to Analytics failed.");
-        counterEl.style.display = 'none'; 
+        console.error("Nexus Analytics Connection Failed:", e);
+        counterEl.innerText = "Nexus Online"; 
     }
 }
 
-// Ensure this is called when the page loads
+// Single listener to start the counter
 document.addEventListener('DOMContentLoaded', initVisitorCounter);

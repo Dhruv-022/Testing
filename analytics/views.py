@@ -45,6 +45,6 @@ def log_visit(request):
     return JsonResponse({"error": "Method not allowed"}, status=405)
 
 
+@ensure_csrf_cookie # This is the "Key" that opens the door
 def home(request):
-    # This tells Django to look for your index.html
     return render(request, 'index.html')

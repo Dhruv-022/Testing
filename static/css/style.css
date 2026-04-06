@@ -1080,7 +1080,32 @@ body.intro-active {
 /* ==========================================================================
    REFINED MULTI-LINE MINIMALIST FOOTER
    ========================================================================== */
-.main-footer {
+.visitor-stat {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    /* We keep the container font-size standard */
+    font-size: 1rem; 
+    font-weight: 600;
+    color: var(--color-text-main);
+    opacity: 0.8;
+}
+
+.visitor-stat i {
+    /* Manually bumping the icon size to match the visual weight of GitHub/LinkedIn */
+    font-size: 1.4rem !important; 
+    /* This ensures the icon stays perfectly on the baseline of the other socials */
+    display: flex;
+    align-items: center;
+}
+
+/* Optional: Slight glow on the number to make it pop */
+#visitor-info {
+    color: var(--color-text-accent);
+}
+
+
+   .main-footer {
     padding: 3rem 2rem;
     position: relative;
     z-index: 10;
@@ -1107,8 +1132,10 @@ body.intro-active {
 /* Line 1: Social Icons Styling */
 .footer-socials {
     display: flex;
-    gap: 1.5rem; /* Space between GitHub and LinkedIn icons */
-    margin-bottom: 5px; /* Extra nudge to keep icons as the focus */
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Adjust this to space them out nicely */
+    margin-bottom: 15px;
 }
 
 .footer-socials .footer-link i {
