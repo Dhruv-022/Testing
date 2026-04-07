@@ -618,4 +618,4 @@ document.addEventListener('click', () => vCard.classList.remove('active'));
 // Update your fetch success logic to target the span inside the card
 // .then(data => {
 //    document.getElementById('visitor-info').innerText = `V ${data.count}`;
-// })
+// }) 
