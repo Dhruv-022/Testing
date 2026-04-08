@@ -360,45 +360,59 @@ body.intro-active {
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05); /* Adjust based on your theme's glass */
+    background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.15);
     color: var(--color-text-main);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease, background-color 0.3s ease; /* Match toggle speed */
+}
+
+.glass-toggle:hover {
+    transform: scale(1.1); /* Slight pop-up effect */
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .visitor-card {
     position: absolute;
-    top: 60px;
+    top: 55px;
     left: 0;
     width: 180px;
-    background: var(--color-bg-secondary, rgba(255, 255, 255, 0.05)); 
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
+    background: var(--color-card-bg); /* Use existing glass variable */
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--color-card-border);
+    border-radius: 12px;
     padding: 15px;
-    display: none; /* Keep hidden initially */
+    display: flex; 
     flex-direction: column;
     gap: 10px;
-    box-shadow: var(--card-shadow, 0 10px 30px rgba(0,0,0,0.2));
+    
+    /* Transition Logic */
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+    transform-origin: top left; /* Makes it grow from the icon */
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease; /* Match .theme-options speed */
 }
 
 .visitor-card.active {
-    display: flex; /* Shown when JS toggles it */
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
 }
 
 /* The Green Signal */
-.green-dot {
+.blue-dot {
     width: 8px;
     height: 8px;
-    background: #00ffaa;
+    background: #64b5f6; /* Lucid Blue accent */
     border-radius: 50%;
-    box-shadow: 0 0 10px #00ffaa;
+    box-shadow: 0 0 10px #1976d2;
+    animation: pulse-blue 2s infinite;
 }
 
 .status-indicator {
@@ -408,7 +422,23 @@ body.intro-active {
     font-size: 0.7rem;
     font-weight: bold;
     text-transform: uppercase;
-    color: #00ffaa;
+    color: #1976d2; /* Matches your subheadline color */
+    text-shadow: 0 0 8px rgba(25, 118, 210, 0.4);
+    letter-spacing: 1px;
+}
+
+@keyframes pulse-blue {
+    0% { transform: scale(0.9); opacity: 0.6; }
+    50% { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(0.9); opacity: 0.6; }
+}
+
+.visitor-stats-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-text-main);
+    font-size: 0.95rem;
 }
 /*
 ==========================================================================
