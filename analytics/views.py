@@ -4,6 +4,11 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from .models import VisitorStats
 from django.shortcuts import render
 
+def get_visitor_count(request):
+    # Retrieve the stats without incrementing
+    stats, created = VisitorStats.objects.get_or_create(id=1)
+    return JsonResponse({"count": stats.total_visits})
+
 @ensure_csrf_cookie
 def log_visit(request):
     if request.method == "POST":

@@ -562,41 +562,50 @@ function getCookie(name) {
     return cookieValue;
 }
 
+/* static/js/script.js */
+
 async function initVisitorCounter() {
     const counterEl = document.getElementById('visitor-info');
     if (!counterEl) return;
 
     // Check if user has already been counted in this session
-    if (sessionStorage.getItem('counted_in_session')) {
-        // Optional: you could make a GET request here just to show the number 
-        // without incrementing, but for now, we'll just show status.
-        counterEl.innerText = "Nexus Online"; 
-        return;
-    }
+    const isAlreadyCounted = sessionStorage.getItem('counted_in_session');
+    
+    // Choose the endpoint: POST to increment for new session, GET for refresh
+    const endpoint = isAlreadyCounted ? '/api/get-count/' : '/api/log-visit/';
+    const method = isAlreadyCounted ? 'GET' : 'POST';
 
     try {
-        const response = await fetch('/api/log-visit/', { 
-    method: 'POST',
-    headers: {
-        'X-CSRFToken': getCookie('csrftoken'), // Must match exactly
-        'Content-Type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest'
-    }
-});
+        const fetchOptions = {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        };
+
+        // Only add CSRF token for POST requests
+        if (method === 'POST') {
+            fetchOptions.headers['X-CSRFToken'] = getCookie('csrftoken');
+        }
+
+        const response = await fetch(endpoint, fetchOptions);
         
-        if (!response.ok) throw new Error('Security or Server Error');
+        if (!response.ok) throw new Error('Analytics Connection Failed');
         
-        // Inside your fetch success logic:
         const data = await response.json();
-        // Instead of "Visitors: n", we set "V n"
-        counterEl.innerText = `V ${data.count}`;
         
-        // Mark as counted so refresh doesn't spam Discord
-        sessionStorage.setItem('counted_in_session', 'true');
+        // Removed the "V" prefix as requested
+        counterEl.innerText = data.count; 
+        
+        // Mark as counted so subsequent refreshes use GET
+        if (!isAlreadyCounted) {
+            sessionStorage.setItem('counted_in_session', 'true');
+        }
         
     } catch (e) {
-        console.error("Nexus Analytics Connection Failed:", e);
-        counterEl.innerText = "Nexus Online"; 
+        console.error("Nexus Analytics Error:", e);
+        counterEl.innerText = "OFFLINE"; 
     }
 }
 
