@@ -26,8 +26,17 @@ SECRET_KEY = 'django-insecure-&7y(=dq9er#6hpp^o(^h6069!0=yx7&fuhjlw$a(l#a(%4hb!w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    '34.14.203.66',
+    '127.0.0.1',
+    'localhost',
+    'dhruvvaishnav.in',
+    'www.dhruvvaishnav.in',
+]
+CSRF_TRUSTED_ORIGINS = [
+    "https://dhruvvaishnav.in",
+    "https://www.dhruvvaishnav.com",
+]
 
 # Application definition
 
@@ -117,6 +126,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
