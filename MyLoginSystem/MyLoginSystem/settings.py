@@ -56,7 +56,7 @@ ROOT_URLCONF = 'MyLoginSystem.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR/'MyLoginSystem'/'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
