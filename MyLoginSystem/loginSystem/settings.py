@@ -116,3 +116,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp-relay.brevo.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+# Paste your extracted items from your phone here:
+EMAIL_HOST_USER = 'b03b8c001@smtp-brevo.com'
+EMAIL_HOST_PASSWORD = 'xsmtpsib-a11ab82124e1271faf4d7eb75425cf7c7b179a3fd11e6c5d012da6d74f0b6083-JfTuDOlfoEVa40In'
+
+# Make sure this matches the EMAIL_HOST_USER email
+DEFAULT_FROM_EMAIL = 'Identity Fortress <verification@dhruvvaishnav.in>'

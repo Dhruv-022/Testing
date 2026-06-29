@@ -5,47 +5,49 @@ from .forms import UserRegistrationForm
 from .models import OTPRecord
 from .forms import OTPVerificationForm
 
+import random
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.core.mail import send_mail # <── 1. CRITICAL: Add this import at the top!
+from .forms import UserRegistrationForm
+from .models import OTPRecord
+
 def signup_view(request):
-    # Personality A: The user is submitting data payload
     if request.method == "POST":
         form = UserRegistrationForm(request.POST)
         
-        # Trigger the forms.py security firewall checks
         if form.is_valid():
-            # 1. Extract the clean, validated text strings from the form dictionary
             extracted_username = form.cleaned_data['username']
             extracted_email = form.cleaned_data['email']
             extracted_password = form.cleaned_data['password']
             
-            # 2. Create the User row in a strict hidden pending state
             new_user = User.objects.create_user(
                 username=extracted_username,
                 email=extracted_email,
                 password=extracted_password
             )
-            new_user.is_active = False # <── CRITICAL GUARD: Account is locked!
+            new_user.is_active = False 
             new_user.save()
             
-            # 3. OTP Engine: Generate a random 6-digit numeric string characters code
             generated_otp = str(random.randint(100000, 999999))
             
-            # 4. State Storage: Save the code to our tracking model database table
             otp_entry = OTPRecord(user=new_user, code=generated_otp)
             otp_entry.save()
             
-            # 5. Terminal Debug Wire: Print the code directly to our running backend console
-            # In a production system, this string would be fired out via an Email API wire.
-            # For our development fortress, we will read it directly from our terminal!
-            print("\n" + "="*50)
-            print("📡 OUTBOUND IDENTITY OTP SIMULATOR DISPATCHED!")
-            print(f"Target Inbox: {extracted_email}")
-            print(f"Generated Code Cargo: {generated_otp}")
-            print("="*50 + "\n")
+            # 2. REAL NETWORK DISPATCH: Blast the email across the internet!
+            email_subject = "🔑 Your Identity Verification OTP"
+            email_body = f"Welcome to the Fortress!\n\nYour 6-digit verification code is: {generated_otp}\n\nThis code will expire shortly."
             
-            # 6. Redirect the browser tab container to the next intermediate verification path
+            send_mail(
+                subject=email_subject,
+                message=email_body,
+                from_email=None, # <── This automatically tells Django to pull DEFAULT_FROM_EMAIL from settings.py
+                recipient_list=[extracted_email], # <── Sends straight to the user's input email
+                fail_silently=False, # <── If Brevo rejects it, throw a clear error on screen so we can debug it!
+            )
+            
             return redirect('/verify-otp/')
             
-    # Personality B: The initial load vector (GET)
     else:
         form = UserRegistrationForm()
         
