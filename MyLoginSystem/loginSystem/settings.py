@@ -10,7 +10,25 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+
+
 from pathlib import Path
+import os
+import environ
+
+# Initialize environment variables reader engine
+env = environ.Env(
+    # set casting and default values
+    DEBUG=(bool, False)
+)
+
+# Set the base directory
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -123,8 +141,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 # Paste your extracted items from your phone here:
-EMAIL_HOST_USER = 'b03b8c001@smtp-brevo.com'
-EMAIL_HOST_PASSWORD = 'xsmtpsib-a11ab82124e1271faf4d7eb75425cf7c7b179a3fd11e6c5d012da6d74f0b6083-JfTuDOlfoEVa40In'
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
-# Make sure this matches the EMAIL_HOST_USER email
 DEFAULT_FROM_EMAIL = 'Identity Fortress <verification@dhruvvaishnav.in>'
