@@ -7,4 +7,6 @@ urlpatterns = [
     path('verify-otp/', views.verify_otp_view, name='verify_otp'),
     path('resend-otp/', views.resend_otp_view, name='resend_otp'),
     path('activate-account/', views.activate_password_view, name='activate_password'),
+    path('dashboard/', views.dashboard_view, name='dashboard'),
+
 ]

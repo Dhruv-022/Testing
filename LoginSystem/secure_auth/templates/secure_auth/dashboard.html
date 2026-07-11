@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f9; color: #333; margin: 40px; }
+        .card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 600px; margin: 0 auto; }
+        h1 { color: #2c3e50; }
+        .role-badge { display: inline-block; padding: 5px 10px; background: #3498db; color: white; border-radius: 4px; font-weight: bold; font-size: 0.9em; }
+        .nav-links { margin-top: 30px; display: flex; flex-direction: column; gap: 10px; }
+        .btn { display: block; padding: 12px; background: #2c3e50; color: white; text-decoration: none; border-radius: 4px; text-align: center; transition: background 0.2s; }
+        .btn:hover { background: #1a252f; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>System Dashboard</h1>
+        <p>Logged in as: <strong>{{ email }}</strong></p>
+        <p>Your Security Clearance: <span class="role-badge">{{ role }}</span></p>
+        
+        <hr>
+        
+        <h3>Navigation Matrix</h3>
+        <p>Test your role access limitations by clicking the zones below:</p>
+        <div class="nav-links">
+            <a href="/customer-zone/" class="btn">Go to Customer Portal (STANDARD)</a>
+            <a href="/agent-zone/" class="btn">Go to Agent Desk (SUPERVISOR)</a>
+            <a href="/admin-zone/" class="btn">Go to Master Vault (ADMIN)</a>
+        </div>
+    </div>
+
+</body>
+</html>

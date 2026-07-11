@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils import timezone  # 🌟 Added for industry-standard timestamping
 import random
 from datetime import timedelta
 from .models import UserAccount
+
 
 def signup_step1_view(request):
     if request.method == "POST":
@@ -135,7 +137,6 @@ def resend_otp_view(request):
     return redirect("verify_otp")
 
 def activate_password_view(request):
-    # 1. Peek into session memory to identify which user is setting their password
     user_email = request.session.get("verifying_email")
     
     if not user_email:
@@ -145,18 +146,19 @@ def activate_password_view(request):
         raw_password = request.POST.get("password")
         
         try:
-            # 2. Fetch their record row from our single table
             account = UserAccount.objects.get(email=user_email)
-            
-            # 3. For now, we will store the string (we will add hashing next!)
             account.password_hash = raw_password 
-            
-            # 4. Success! Turn the active_status flag to True
             account.active_status = True
             account.save()
             
-            # 5. Clear out the temporary tracking session memory
-            del request.session["verifying_email"]
+            # 🌟 STEP 5: FIXED SESSION MANAGEMENT
+            # Upgrade their session from "verifying" to officially "logged in"
+            request.session["logged_in_user_email"] = account.email
+            request.session["logged_in_user_role"] = "STANDARD" # Hardcoded for now until we update the model field!
+            
+            # Clean up the temporary OTP verification variable
+            if "verifying_email" in request.session:
+                del request.session["verifying_email"]
             
             return render(request, "secure_auth/success.html", {"first_name": account.first_name})
             
@@ -164,3 +166,30 @@ def activate_password_view(request):
             return redirect("signup_step1")
             
     return render(request, "secure_auth/activate_password.html")
+
+def dashboard_view(request):
+    # 🌟 1. Read the official logged-in keys set by the password activation view
+    session_email = request.session.get("logged_in_user_email")
+    session_role = request.session.get("logged_in_user_role")
+    
+    # 🛡️ 2. Verification Gate: If they aren't logged in, redirect them out
+    if not session_email:
+        return redirect("signup_step1")
+
+    context = {
+        "email": session_email,
+        "role": session_role,
+    }
+    
+    return render(request, "secure_auth/dashboard.html", context)
+
+# Append these at the bottom of secure_auth/views.py
+
+def customer_zone_view(request):
+    return HttpResponse("<h1>Welcome to the Customer Portal (STANDARD)</h1><p>Access Granted: You are in the customer zone.</p>")
+
+def agent_zone_view(request):
+    return HttpResponse("<h1>Welcome to the Support Agent Desk (SUPERVISOR)</h1><p>Access Granted: You are in the agent staff zone.</p>")
+
+def admin_zone_view(request):
+    return HttpResponse("<h1>Welcome to the Master Admin Vault (ADMIN)</h1><p>Access Granted: You are in the highest clearance vault.</p>")

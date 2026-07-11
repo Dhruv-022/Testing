@@ -97,7 +97,11 @@
     <h2>Success!</h2>
     <h1>{{ first_name }}, your account is successfully created.</h1>
     <p>Your identity row parameters are now active in the database system registry logs.</p>
-    <button onclick="window.location.href='/'">Go to Dashboard</button>
+    
+    <!-- 🌟 Updated this button line below to use the Django template engine -->
+    <a href="{% url 'dashboard' %}">
+      <button>Go to Dashboard</button>
+    </a>
   </div>
 </body>
 </html>
