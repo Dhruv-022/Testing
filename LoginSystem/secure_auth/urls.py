@@ -9,4 +9,8 @@ urlpatterns = [
     path('activate-account/', views.activate_password_view, name='activate_password'),
     path('dashboard/', views.dashboard_view, name='dashboard'),
 
+    path('customer-zone/', views.customer_zone_view, name='customer_zone'),
+    path('agent-zone/', views.agent_zone_view, name='agent_zone'),
+    path('admin-zone/', views.admin_zone_view, name='admin_zone'),
+
 ]
