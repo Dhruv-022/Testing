@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.core.mail import send_mail
+from .decorators import customer_required, agent_required, admin_required
 from django.conf import settings
 from django.utils import timezone  # 🌟 Added for industry-standard timestamping
 import random
@@ -154,7 +155,7 @@ def activate_password_view(request):
             # 🌟 STEP 5: FIXED SESSION MANAGEMENT
             # Upgrade their session from "verifying" to officially "logged in"
             request.session["logged_in_user_email"] = account.email
-            request.session["logged_in_user_role"] = "STANDARD" # Hardcoded for now until we update the model field!
+            request.session["logged_in_user_role"] = account.role  # No longer hardcoded as a static string!
             
             # Clean up the temporary OTP verification variable
             if "verifying_email" in request.session:
@@ -185,11 +186,14 @@ def dashboard_view(request):
 
 # Append these at the bottom of secure_auth/views.py
 
+@customer_required
 def customer_zone_view(request):
     return HttpResponse("<h1>Welcome to the Customer Portal (STANDARD)</h1><p>Access Granted: You are in the customer zone.</p>")
 
+@agent_required
 def agent_zone_view(request):
     return HttpResponse("<h1>Welcome to the Support Agent Desk (SUPERVISOR)</h1><p>Access Granted: You are in the agent staff zone.</p>")
 
+@admin_required
 def admin_zone_view(request):
     return HttpResponse("<h1>Welcome to the Master Admin Vault (ADMIN)</h1><p>Access Granted: You are in the highest clearance vault.</p>")
