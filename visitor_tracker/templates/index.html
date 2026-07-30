@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visitor Tracker v2.0</title>
+    <style>
+        body { 
+            font-family: system-ui, -apple-system, sans-serif; 
+            text-align: center; 
+            padding-top: 60px; 
+            background: #0f172a; 
+            color: #f8fafc; 
+        }
+        .card { 
+            background: #1e293b; 
+            padding: 35px; 
+            display: inline-block; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
+            border: 1px solid #334155; 
+            max-width: 500px;
+        }
+        h1 { margin-top: 0; color: #38bdf8; }
+        a { color: #38bdf8; text-decoration: none; font-weight: 500; }
+        a:hover { text-decoration: underline; }
+        .status { 
+            margin-top: 20px; 
+            font-weight: 600; 
+            padding: 12px; 
+            background: #0f172a; 
+            border-radius: 8px; 
+            color: #38bdf8; 
+            border: 1px solid #1e293b;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🚀 Visitor Tracker v2.0</h1>
+        <p>Hybrid Engine: Server Middleware + Client-Side JS Verification</p>
+        <p><a href="/admin/">Go to Admin Panel</a></p>
+        <div id="detection-status" class="status">🔍 Running Client-Side Verification...</div>
+    </div>
+
+    <script>
+    async function detectExactBrowser() {
+        const ua = navigator.userAgent;
+        let detectedBrowser = "Unknown Browser";
+        let detectedOS = null;
+
+        // 1. BRAVE (Explicit API)
+        if (navigator.brave && await navigator.brave.isBrave()) {
+            detectedBrowser = "Brave Browser";
+        }
+        // 2. MICROSOFT EDGE
+        else if (ua.includes("Edg/") || (navigator.userAgentData && navigator.userAgentData.brands && navigator.userAgentData.brands.some(b => b.brand.includes("Microsoft Edge")))) {
+            detectedBrowser = "Microsoft Edge";
+        }
+        // 3. OPERA
+        else if (ua.includes("OPR/") || ua.includes("Opera/") || window.opr) {
+            detectedBrowser = "Opera";
+        }
+        // 4. VIVALDI
+        else if (ua.includes("Vivaldi/")) {
+            detectedBrowser = "Vivaldi";
+        }
+        // 5. MOZILLA FIREFOX
+        else if (ua.includes("Firefox/") && !ua.includes("Seamonkey/")) {
+            detectedBrowser = "Mozilla Firefox";
+        }
+        // 6. APPLE SAFARI
+        else if (ua.includes("Safari/") && !ua.includes("Chrome/") && !ua.includes("Chromium/")) {
+            detectedBrowser = "Apple Safari";
+        }
+        // 7. GENUINE GOOGLE CHROME
+        else if (ua.includes("Chrome/") && !ua.includes("Chromium/")) {
+            detectedBrowser = "Google Chrome";
+        }
+
+        // 8. WINDOWS 11 HIGH-ENTROPY HINT CHECK
+        if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
+            try {
+                const hints = await navigator.userAgentData.getHighEntropyValues(["platformVersion", "platform"]);
+                if (hints.platform === "Windows") {
+                    const majorVersion = parseInt(hints.platformVersion.split('.')[0]);
+                    if (majorVersion >= 13) {
+                        detectedOS = "Windows 11";
+                    } else {
+                        detectedOS = "Windows 10";
+                    }
+                }
+            } catch(e) {}
+        }
+
+        // Update the screen status
+        const statusDiv = document.getElementById('detection-status');
+        statusDiv.innerHTML = `✨ JS Verified Browser: <b>${detectedBrowser}</b> ${detectedOS ? 'on <b>' + detectedOS + '</b>' : ''}`;
+
+        // Send payload back to Django API
+        fetch('/api/verify-browser/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                browser: detectedBrowser,
+                os: detectedOS
+            })
+        });
+    }
+
+    // Execute as soon as page loads
+    detectExactBrowser();
+</script>
+</body>
+</html>
