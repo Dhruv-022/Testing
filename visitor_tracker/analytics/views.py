@@ -14,20 +14,24 @@ def update_browser_info(request):
             data = json.loads(request.body)
             verified_browser = data.get('browser')
             verified_os = data.get('os')
+            verified_device = data.get('device')
 
             x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
             ip = x_forwarded_for.split(',')[0].strip() if x_forwarded_for else request.META.get('REMOTE_ADDR', '')
 
-            latest_log = VisitorLog.objects.filter(ip_address=ip).order_by('-timestamp').first()
+            # Ignore favicon.ico calls to match the actual page hit
+            latest_log = VisitorLog.objects.filter(ip_address=ip).exclude(path='/favicon.ico').order_by('-timestamp').first()
 
             if latest_log:
                 if verified_browser:
                     latest_log.browser = verified_browser
                 if verified_os:
                     latest_log.operating_system = verified_os
+                if verified_device:
+                    latest_log.device_type = verified_device
                 latest_log.save()
 
-                # SINGLE STANDARD TERMINAL LOG PRINT 🚀
+                # UNIFIED CLEAN TERMINAL OUTPUT
                 visitor_name = latest_log.user.username if latest_log.user else "Anonymous"
                 print("\n" + "="*50)
                 print(f"📥 NEW VISITOR LOG DETECTED")

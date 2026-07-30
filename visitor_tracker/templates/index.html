@@ -44,58 +44,75 @@
     </div>
 
     <script>
-    async function detectExactBrowser() {
+    async function detectDeviceAndBrowser() {
         const ua = navigator.userAgent;
         let detectedBrowser = "Unknown Browser";
-        let detectedOS = null;
+        let detectedOS = "Unknown OS";
+        let detectedDevice = "Desktop";
 
-        // 1. BRAVE (Explicit API)
+        // 1. DEVICE TYPE DETECTION
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua) || 
+                         (navigator.maxTouchPoints && navigator.maxTouchPoints > 2);
+        if (isMobile) {
+            detectedDevice = "Mobile";
+        }
+
+        // 2. OPERATING SYSTEM DETECTION
+        if (/Android/i.test(ua)) {
+            detectedOS = "Android";
+        } else if (/iPhone|iPad|iPod/i.test(ua)) {
+            detectedOS = "iOS";
+        } else if (/Mac/i.test(ua)) {
+            detectedOS = "macOS";
+        } else if (/Linux/i.test(ua)) {
+            detectedOS = "Linux";
+        } else if (/Win/i.test(ua)) {
+            detectedOS = "Windows";
+        }
+
+        // 3. BRAVE DETECTION (Explicit API)
         if (navigator.brave && await navigator.brave.isBrave()) {
             detectedBrowser = "Brave Browser";
         }
-        // 2. MICROSOFT EDGE
+        // 4. MICROSOFT EDGE
         else if (ua.includes("Edg/") || (navigator.userAgentData && navigator.userAgentData.brands && navigator.userAgentData.brands.some(b => b.brand.includes("Microsoft Edge")))) {
             detectedBrowser = "Microsoft Edge";
         }
-        // 3. OPERA
+        // 5. OPERA
         else if (ua.includes("OPR/") || ua.includes("Opera/") || window.opr) {
             detectedBrowser = "Opera";
         }
-        // 4. VIVALDI
+        // 6. VIVALDI
         else if (ua.includes("Vivaldi/")) {
             detectedBrowser = "Vivaldi";
         }
-        // 5. MOZILLA FIREFOX
+        // 7. MOZILLA FIREFOX
         else if (ua.includes("Firefox/") && !ua.includes("Seamonkey/")) {
             detectedBrowser = "Mozilla Firefox";
         }
-        // 6. APPLE SAFARI
+        // 8. APPLE SAFARI
         else if (ua.includes("Safari/") && !ua.includes("Chrome/") && !ua.includes("Chromium/")) {
             detectedBrowser = "Apple Safari";
         }
-        // 7. GENUINE GOOGLE CHROME
+        // 9. GENUINE GOOGLE CHROME
         else if (ua.includes("Chrome/") && !ua.includes("Chromium/")) {
             detectedBrowser = "Google Chrome";
         }
 
-        // 8. WINDOWS 11 HIGH-ENTROPY HINT CHECK
-        if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
+        // 10. WINDOWS 11 HIGH-ENTROPY CHECK
+        if (detectedOS === "Windows" && navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
             try {
                 const hints = await navigator.userAgentData.getHighEntropyValues(["platformVersion", "platform"]);
                 if (hints.platform === "Windows") {
                     const majorVersion = parseInt(hints.platformVersion.split('.')[0]);
-                    if (majorVersion >= 13) {
-                        detectedOS = "Windows 11";
-                    } else {
-                        detectedOS = "Windows 10";
-                    }
+                    detectedOS = majorVersion >= 13 ? "Windows 11" : "Windows 10";
                 }
             } catch(e) {}
         }
 
-        // Update the screen status
+        // Update UI
         const statusDiv = document.getElementById('detection-status');
-        statusDiv.innerHTML = `✨ JS Verified Browser: <b>${detectedBrowser}</b> ${detectedOS ? 'on <b>' + detectedOS + '</b>' : ''}`;
+        statusDiv.innerHTML = `✨ Verified: <b>${detectedBrowser}</b> on <b>${detectedDevice} (${detectedOS})</b>`;
 
         // Send payload back to Django API
         fetch('/api/verify-browser/', {
@@ -103,13 +120,13 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 browser: detectedBrowser,
-                os: detectedOS
+                os: detectedOS,
+                device: detectedDevice
             })
         });
     }
 
-    // Execute as soon as page loads
-    detectExactBrowser();
+    detectDeviceAndBrowser();
 </script>
 </body>
 </html>
