@@ -8,8 +8,9 @@ class VisitorLogMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
 
-        # Skip static and media files to keep terminal output clean
-        if request.path.startswith('/static/') or request.path.startswith('/media/'):
+        # Skip static files, media files, and internal verification API calls
+        excluded_paths = ('/static/', '/media/', '/api/verify-browser/')
+        if request.path.startswith(excluded_paths):
             return response
 
         # 1. Extract IP Address
