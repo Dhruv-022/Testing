@@ -8,19 +8,16 @@ class VisitorLogMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
 
-        # Skip static files, media files, and internal verification API calls
+        # Ignore static assets, media, and internal API routes
         excluded_paths = ('/static/', '/media/', '/api/verify-browser/')
         if request.path.startswith(excluded_paths):
             return response
 
-        # 1. Extract IP Address
+        # 1. IP Resolution
         x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forwarded_for:
-            ip = x_forwarded_for.split(',')[0].strip()
-        else:
-            ip = request.META.get('REMOTE_ADDR', '0.0.0.0')
+        ip = x_forwarded_for.split(',')[0].strip() if x_forwarded_for else request.META.get('REMOTE_ADDR', '0.0.0.0')
 
-        # 2. Extract & Parse User-Agent
+        # 2. Parse User-Agent
         user_agent_string = request.META.get('HTTP_USER_AGENT', '')
         user_agent = parse(user_agent_string)
 
@@ -35,40 +32,13 @@ class VisitorLogMiddleware:
         else:
             device_type = "Unknown"
 
-        # 3. Parse browser & OS versions cleanly
         browser_name = f"{user_agent.browser.family} {user_agent.browser.version_string}".strip()
         os_name = f"{user_agent.os.family} {user_agent.os.version_string}".strip()
 
-        # Fix for Windows 11 User-Agent Reduction
-        if user_agent.os.family == "Windows":
-            platform_version = request.META.get('HTTP_SEC_CH_UA_PLATFORM_VERSION', '').replace('"', '')
-            if platform_version:
-                try:
-                    # Windows 11 is platform version 13.0.0+
-                    major_version = int(platform_version.split('.')[0])
-                    if major_version >= 13:
-                        os_name = "Windows 11"
-                    else:
-                        os_name = "Windows 10"
-                except ValueError:
-                    pass
-
-        # 4. Identity
         user = request.user if request.user.is_authenticated else None
         session_key = request.session.session_key if hasattr(request, 'session') else None
 
-        # 5. Terminal Print Output 🚀
-        visitor_name = user.username if user else "Anonymous"
-        print("\n" + "="*50)
-        print(f"📥 NEW VISITOR LOG DETECTED")
-        print(f"   • IP Address : {ip}")
-        print(f"   • Visitor    : {visitor_name}")
-        print(f"   • Device     : {device_type}")
-        print(f"   • OS / Browser: {os_name} | {browser_name}")
-        print(f"   • Path Hit   : [{request.method}] {request.path}")
-        print("="*50 + "\n")
-
-        # 6. Save to Database
+        # 3. Save silently to Database (No terminal print here)
         try:
             VisitorLog.objects.create(
                 user=user,
@@ -83,6 +53,6 @@ class VisitorLogMiddleware:
                 device_type=device_type,
             )
         except Exception as e:
-            print(f"⚠️ Failed to log to database: {e}")
+            pass
 
         return response
