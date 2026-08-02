@@ -43,34 +43,47 @@
         <div id="detection-status" class="status">🔍 Running Client-Side Verification...</div>
     </div>
 
-    <script>
+<script>
     async function detectDeviceAndBrowser() {
         const ua = navigator.userAgent;
         let detectedBrowser = "Unknown Browser";
         let detectedOS = "Unknown OS";
         let detectedDevice = "Desktop";
 
-        // 1. DEVICE TYPE DETECTION
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua) || 
-                         (navigator.maxTouchPoints && navigator.maxTouchPoints > 2);
-        if (isMobile) {
-            detectedDevice = "Mobile";
-        }
-
-        // 2. OPERATING SYSTEM DETECTION
+        // 1. RESOLVE OPERATING SYSTEM
         if (/Android/i.test(ua)) {
             detectedOS = "Android";
         } else if (/iPhone|iPad|iPod/i.test(ua)) {
-            detectedOS = "iOS";
+            detectedOS = /iPad/i.test(ua) ? "iPadOS" : "iOS";
         } else if (/Mac/i.test(ua)) {
-            detectedOS = "macOS";
+            // iPadOS on desktop site claims Mac with touch points
+            detectedOS = (navigator.maxTouchPoints && navigator.maxTouchPoints > 1) ? "iPadOS" : "macOS";
         } else if (/Linux/i.test(ua)) {
             detectedOS = "Linux";
         } else if (/Win/i.test(ua)) {
             detectedOS = "Windows";
         }
 
-        // 3. BRAVE DETECTION (Explicit API)
+        // 2. DISAMBIGUATE TOUCH LAPTOPS VS MOBILES
+        const isMobileUA = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+        const isTabletUA = /iPad/i.test(ua) || (detectedOS === "iPadOS");
+        const isSmallScreen = window.innerWidth <= 768;
+
+        if (isTabletUA) {
+            detectedDevice = "Tablet";
+        } else if (isMobileUA) {
+            detectedDevice = "Mobile";
+        } else if (navigator.userAgentData && navigator.userAgentData.mobile) {
+            detectedDevice = "Mobile";
+        } else if ((detectedOS === "Windows" || detectedOS === "macOS" || detectedOS === "Linux") && isSmallScreen) {
+            // Handles mobile phones forcing "Desktop Site" mode on small viewports
+            detectedDevice = "Mobile (Desktop Mode)";
+        } else {
+            // Standard PCs and Touchscreen Laptops (large screens) stay Desktop
+            detectedDevice = "Desktop";
+        }
+
+        // 3. BRAVE DETECTION
         if (navigator.brave && await navigator.brave.isBrave()) {
             detectedBrowser = "Brave Browser";
         }
@@ -110,11 +123,13 @@
             } catch(e) {}
         }
 
-        // Update UI
+        // Update UI status div if present
         const statusDiv = document.getElementById('detection-status');
-        statusDiv.innerHTML = `✨ Verified: <b>${detectedBrowser}</b> on <b>${detectedDevice} (${detectedOS})</b>`;
+        if (statusDiv) {
+            statusDiv.innerHTML = `✨ Verified: <b>${detectedBrowser}</b> on <b>${detectedDevice} (${detectedOS})</b>`;
+        }
 
-        // Send payload back to Django API
+        // Send verified payload back to Django API
         fetch('/api/verify-browser/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
