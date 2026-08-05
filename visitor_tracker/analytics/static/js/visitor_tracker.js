@@ -78,15 +78,15 @@ async function detectDeviceAndBrowser() {
     }
 
     // Send payload to Django API
-    fetch('/api/verify-browser/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            browser: detectedBrowser,
-            os: detectedOS,
-            device: detectedDevice
-        })
-    });
+    fetch('/analytics/verify-browser/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+        browser: detectedBrowser,
+        os: detectedOS,
+        device: detectedDevice
+    })
+});
 }
 
 // Execute automatically when DOM is fully loaded

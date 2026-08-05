@@ -1,12 +1,8 @@
 import json
 import urllib.request
-from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import VisitorLog
-
-def home_view(request):
-    return render(request, 'index.html')
 
 def get_real_client_ip(request):
     """
