@@ -78,7 +78,7 @@ async function detectDeviceAndBrowser() {
     }
 
     // Send payload to Django API
-    fetch('/analytics/verify-browser/', {
+    fetch('/visitor-analytics/verify-browser/', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({

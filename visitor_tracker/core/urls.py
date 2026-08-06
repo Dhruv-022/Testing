@@ -9,6 +9,6 @@ urlpatterns = [
     # 1. Main website homepage
     path('', home_view, name='home'),
     
-    # 2. Reusable tracking package routes (/analytics/verify-browser/)
-    path('analytics/', include('analytics.urls')),
+    # 2. Reusable tracking package routes (/visitor_analytics/verify-browser/)
+    path('visitor-analytics/', include('visitor_analytics.urls')),
 ]

@@ -135,6 +135,6 @@ def update_browser_info(request):
 
             return JsonResponse({'status': 'success'})
         except Exception as e:
+            print(f"\n❌ EXCEPTION IN VISITOR VERIFICATION: {e}\n")  # <-- ADD THIS PRINT LINE
             return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
-
     return JsonResponse({'status': 'invalid method'}, status=405)
